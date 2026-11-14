@@ -27,3 +27,5 @@ dist-ssr
 *.db
 __pycache__/
 .venv/
+package-lock.json
+

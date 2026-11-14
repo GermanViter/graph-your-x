@@ -1,0 +1,36 @@
+.pv-side {
+    border-left: 1px solid var(--line);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--card);
+}
+
+.pv-side h3 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+}
+
+.pv-side p,
+.pv-side li {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.pv-side ul {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    color: var(--mute);
+}
+
+.pv-tag {
+    display: inline-block;
+    font: 600 13px 'Bricolage Grotesque', sans-serif;
+    padding: 2px 10px;
+    border-radius: 99px;
+    width: fit-content;
+}

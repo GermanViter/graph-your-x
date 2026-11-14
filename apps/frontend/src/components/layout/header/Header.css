@@ -1,0 +1,164 @@
+.header {
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid transparent;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 100;
+
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.header.scrolled {
+    border-bottom-color: #e5e7eb;
+    box-shadow: 0 4px 16px rgba(22, 33, 58, 0.06);
+}
+
+/* Brand */
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    text-decoration: none;
+}
+
+.header-logo {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #16213a;
+
+    transition: background 0.2s ease;
+}
+
+.header-brand:hover .header-logo {
+    background: #5a3fd0;
+}
+
+.header-brand-title {
+    color: #16213a;
+
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* Navigation */
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header-link {
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    color: #5a6578;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.header-link:hover {
+    background: #eef1f4;
+    color: #16213a;
+}
+
+.header-link.active {
+    color: #16213a;
+    font-weight: 700;
+}
+
+.header-cta {
+    margin-left: 12px;
+    padding: 9px 16px;
+
+    border-radius: 8px;
+
+    background: #16213a;
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: background 0.2s ease;
+}
+
+.header-cta:hover {
+    background: #5a3fd0;
+}
+
+.header-brand:focus-visible,
+.header-link:focus-visible,
+.header-cta:focus-visible {
+    outline: 3px solid #5a3fd0;
+    outline-offset: 2px;
+}
+
+/* Responsive */
+
+@media (max-width: 760px) {
+    .header {
+        padding: 0 16px;
+    }
+
+    .header-link.section {
+        display: none;
+    }
+}
+
+@media (max-width: 440px) {
+    .header-link {
+        display: none;
+    }
+
+    .header-cta {
+        margin-left: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .header,
+    .header-logo,
+    .header-link,
+    .header-cta {
+        transition: none;
+    }
+}
