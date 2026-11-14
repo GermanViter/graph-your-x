@@ -6,29 +6,74 @@ Projet réalisé pour **HackDécouverte 2026**.
 
 Vous choisissez un objectif (ex. *Machine Learning*) et Graph Your X affiche un graphe de tous les
 préalables à maîtriser avant : les préalables directs, mais aussi les préalables des préalables.
-Vous cochez ce que vous avez déjà appris et la carte vous montre ce que vous pouvez attaquer
-maintenant.
+Vous cochez ce que vous avez déjà fait, et la carte vous montre ce que vous pouvez prendre maintenant.
+
+Ça marche pour n'importe quel arbre de connaissances : un programme d'études, un arbre de compétences,
+un parcours de certification ou une feuille de route d'apprentissage.
 
 ## Fonctionnalités
 
-- **Toute la chaîne de préalables** : on voit le vrai nombre d'étapes avant d'atteindre l'objectif.
-- **Obligatoire ou conseillé** : l'API indique pour chaque lien si le préalable est bloquant ou juste utile.
-- **Suivi de progression** : on marque ce qui est appris, et ce qui est accessible ensuite change de couleur.
-- **Ce que chaque concept débloque** : on voit quels sujets dépendent de celui qu'on regarde.
-- **Navigation dans le graphe** : zoom et ajustement à l'écran.
-- **Construire son propre parcours**, de trois façons :
-  - **Catalog** : ajouter un cours du catalogue, avec tous ses préalables d'un coup.
-  - **Add a step** : créer une étape et choisir ses préalables parmi celles qui existent déjà.
-  - **Edit text** : écrire le parcours en texte, une étape par ligne (`Étape : préalable, préalable`),
-    avec indentation, mise en forme automatique et validation (noms en double, cycles).
-- **Annuler et recommencer** : annuler le dernier changement ou revenir au parcours d'exemple.
+### Le graphe
+
+- **Toute la chaîne de préalables** : en sélectionnant un cours, toute sa chaîne de préalables
+  s'illumine, pas seulement les préalables directs.
+- **Trois statuts** : *Completed* (fait), *Ready to take* (tous les préalables sont faits) et
+  *Locked* (il manque encore des préalables). Une légende sous le graphe les explique.
+- **Panneau de détails** : pour le cours sélectionné, on voit son statut, la liste des cours qu'il
+  reste à faire avant et ce qu'il débloque (*Opens up*).
+- **Navigation** : zoom et ajustement à l'écran.
+
+### Le suivi de progression
+
+- Marquer un cours comme fait (ou le décocher), ou effacer toute la progression.
+- Une **barre de progression** : *X of Y courses completed*.
+- La liste **Ready to take now** : les cours accessibles tout de suite. Un clic les sélectionne
+  dans le graphe.
+- La progression et le parcours sont **sauvegardés dans le navigateur** (`localStorage`).
+
+### Gérer son parcours
+
+Le bouton **Manage path** ouvre un éditeur avec trois onglets :
+
+- **Catalog** : chercher dans le catalogue par code ou par nom, et cocher un cours pour l'ajouter
+  avec tous ses préalables. Décocher un cours retire aussi ceux qui en dépendent. Filtre
+  *Selected only* et bouton Undo.
+- **Add a step** : créer une étape personnalisée et choisir ses préalables parmi les étapes existantes.
+- **Edit text** : écrire le parcours en texte, une étape par ligne :
+
+  ```
+  HTML basics:
+  CSS basics:
+    Build a website: HTML basics, CSS basics
+      Publish a website: Build a website
+  ```
+
+  Le côté droit vide veut dire « aucun préalable ». L'éditeur gère l'indentation (Tab / Shift+Tab),
+  peut remettre le texte en forme et valide le contenu avant de l'appliquer : noms en double,
+  format invalide, cycles. Supprimer une étape retire aussi les étapes qui en dépendent.
+
+On peut annuler le dernier changement ou revenir au **parcours d'exemple** (15 cours d'informatique,
+d'*Intro Programming* jusqu'à *Deep Learning*).
+
+### Les pages
+
+| Page | Contenu |
+|---|---|
+| `/` | Page d'accueil avec une démo en direct du graphe (Machine Learning sélectionné), les fonctionnalités et l'éditeur |
+| `/graph` | Le visualiseur complet : progression, graphe, détails et gestion du parcours |
+
+### L'API
+
+Un backend FastAPI sert les sujets et leurs graphes de préalables à partir d'une base SQLite
+(voir [API](#api)). Chaque lien y est marqué **obligatoire** (`required`) ou **conseillé**
+(`recommended`), et chaque concept a une catégorie et une difficulté de 1 à 5.
 
 ## Stack
 
 | Partie | Technologies |
 |---|---|
-| Frontend | React 19, TypeScript, Vite, React Router (pages `/` et `/graph`) |
-| Backend | Python, FastAPI, Uvicorn |
+| Frontend | React 19, TypeScript, Vite, React Router, graphe dessiné en SVG maison, Vitest |
+| Backend | Python, FastAPI, Uvicorn, Pydantic, pytest |
 | Base de données | SQLite |
 
 ## Structure du projet
@@ -36,15 +81,23 @@ maintenant.
 ```
 graph-your-x/
 ├── apps/
-│   ├── backend/            # API FastAPI
-│   │   ├── main.py         # routes et CORS
-│   │   ├── db.py           # connexion SQLite, tables et requêtes
-│   │   ├── models.py       # types du JSON (Pydantic)
-│   │   ├── seed.py         # données de départ
+│   ├── backend/                # API FastAPI
+│   │   ├── main.py             # routes et CORS
+│   │   ├── db.py               # connexion SQLite, tables et requêtes
+│   │   ├── models.py           # types du JSON (Pydantic)
+│   │   ├── seed.py             # sujets de départ
+│   │   ├── tests/              # tests pytest (API et base de données)
 │   │   └── requirements.txt
-│   └── frontend/           # app React + Vite
-├── CLAUDE.md               # conventions du projet
-└── package.json            # scripts pour lancer le front depuis la racine
+│   └── frontend/               # app React + Vite
+│       ├── data.json           # catalogue de cours d'exemple
+│       └── src/
+│           ├── pages/          # accueil (/) et graphe (/graph)
+│           ├── components/     # graphe, détails, légende, éditeur de parcours, layout
+│           ├── hooks/          # usePrereqPlanner : tout l'état du planificateur
+│           ├── services/       # chargement du catalogue, édition du parcours (+ tests)
+│           └── global.css      # thème (couleurs, polices)
+├── CLAUDE.md                   # conventions du projet
+└── package.json                # scripts pour lancer le front depuis la racine
 ```
 
 ## Lancer le projet
@@ -79,10 +132,11 @@ npm install
 npm run dev
 ```
 
-L'app est sur http://localhost:5173 : la page d'accueil sur `/` et le graphe sur `/graph`.
+L'app est sur http://localhost:5173.
 
-Par défaut, le frontend utilise le catalogue d'exemple `apps/frontend/data.json`. Pour lui faire
-lire un catalogue servi par une API, définissez `VITE_COURSES_API_URL` dans `apps/frontend/.env`.
+Par défaut, le catalogue de l'onglet *Catalog* vient de `apps/frontend/data.json`. Pour le charger
+depuis une API, définissez `VITE_COURSES_API_URL` dans `apps/frontend/.env`. L'adresse doit renvoyer
+une liste au format `[{ "id": "...", "name": "...", "prereqs": ["..."] }]`.
 
 ## Tests
 
@@ -95,8 +149,11 @@ python -m pytest
 npm test
 ```
 
-Le backend teste les routes de l'API et les requêtes de la base (`apps/backend/tests/`).
-Le frontend teste les services `api.ts` et `catalog.ts` avec Vitest (`src/services/__tests__/`).
+- **Backend** (`apps/backend/tests/`) : les routes de l'API (contrat JSON, 404, CORS) et la base de
+  données (chaîne de préalables complète, arrêt sur des données cycliques, sauvegarde sans doublons,
+  contraintes du schéma, rollback en cas d'erreur).
+- **Frontend** (`src/services/__tests__/`) : le chargement et la validation du catalogue (`api.ts`)
+  et l'ajout et le retrait de cours avec leurs dépendances (`catalog.ts`), avec Vitest.
 
 ## API
 
@@ -141,8 +198,9 @@ La base SQLite (`apps/backend/app.db`) contient trois tables :
 - `prerequisites` : un lien par ligne (`concept_id` requiert `requires_id`, avec un `type`)
 - `topics` : les objectifs proposés dans le sélecteur
 
-Le graphe complet d'un sujet est obtenu avec une requête récursive (`WITH RECURSIVE`).
-Les concepts sont partagés entre les sujets : *Python* sert autant au Machine Learning qu'au reste.
+Le graphe complet d'un sujet est obtenu avec une requête récursive (`WITH RECURSIVE`), qui s'arrête
+même si les données contiennent un cycle. Les concepts sont partagés entre les sujets :
+*Python* sert autant au Machine Learning qu'au reste.
 
 Sujets inclus au départ : **Machine Learning**, **Web Development**, **Cybersecurity**.
 Pour en ajouter, modifiez `apps/backend/seed.py` puis relancez `python seed.py`
@@ -155,8 +213,9 @@ Pour en ajouter, modifiez `apps/backend/seed.py` puis relancez `python seed.py`
   (pas de cycles, tous les concepts reliés à l'objectif) avant de les sauvegarder.
   La base est déjà prête : `db.py` sait sauvegarder une roadmap validée (`save_roadmap`)
   et lister les concepts existants pour que l'IA les réutilise (`list_concepts`).
-- Sauvegarder la progression de l'utilisateur.
-- Comptes utilisateurs.
+- Afficher dans le graphe la différence entre préalables obligatoires et conseillés.
+- Importer de vrais catalogues de cours de cégeps et d'universités.
+- Comptes utilisateurs pour retrouver sa progression sur plusieurs appareils.
 
 ## Équipe
 
