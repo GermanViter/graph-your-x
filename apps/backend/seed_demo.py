@@ -6,12 +6,11 @@ The starter concepts are included so this also works with an empty database.
 """
 
 import json
-from contextlib import closing
 from pathlib import Path
 
 from db import DB_PATH, get_conn, init_db
 from models import RoadmapEdge, RoadmapNode
-from seed import CONCEPTS, PREREQUISITES
+from seed import CONCEPTS, PREREQUISITES, TOPICS
 
 DEMO_PATH = Path(__file__).with_name("demo_data.json")
 
@@ -64,7 +63,7 @@ def load_demo() -> tuple[list[tuple], list[tuple]]:
 def seed_demo() -> None:
     concepts, edges = load_demo()
     init_db()
-    with closing(get_conn()) as conn, conn:
+    with get_conn() as conn:
         # One transaction keeps each new concept and its prerequisites together.
         conn.execute("BEGIN IMMEDIATE")
         existing = {row[0] for row in conn.execute("SELECT id FROM concepts")}
@@ -81,11 +80,16 @@ def seed_demo() -> None:
             "INSERT INTO prerequisites (concept_id, requires_id, type) VALUES (?, ?, ?)",
             new_edges,
         )
+        # The catalog endpoint reads the topics table, not the concept category.
+        # Register seed goals even if their concepts already existed.
+        topic_ids = set(TOPICS) | {row[0] for row in concepts if row[3] == "domain"}
+        conn.executemany(
+            "INSERT INTO topics (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
+            [(topic_id,) for topic_id in sorted(topic_ids)],
+        )
         total_concepts = conn.execute("SELECT COUNT(*) FROM concepts").fetchone()[0]
         total_edges = conn.execute("SELECT COUNT(*) FROM prerequisites").fetchone()[0]
-        total_topics = conn.execute(
-            "SELECT COUNT(*) FROM concepts WHERE category = 'domain'"
-        ).fetchone()[0]
+        total_topics = conn.execute("SELECT COUNT(*) FROM topics").fetchone()[0]
     print(f"Database: {DB_PATH}")
     print(f"Added {len(new_concepts)} concepts and {len(new_edges)} prerequisites.")
     print(f"Total: {total_concepts} concepts, {total_edges} prerequisites, {total_topics} topics.")
