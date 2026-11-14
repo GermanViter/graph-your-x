@@ -1,7 +1,7 @@
 # Automatic test catalog
 
 Start the app from the repository root with `npm run dev`. Backend startup creates
-`apps/backend/data.db` if needed and fills in missing starter and demo concepts
+`apps/backend/app.db` if needed and fills in missing starter and demo concepts
 before accepting API requests. Teammates get the catalog automatically after
 installing the project dependencies and starting the app; no separate seed command
 is required. This also works when starting FastAPI directly.
@@ -19,6 +19,7 @@ recommendations, and difficulties from 1 to 5.
 ## How it works
 
 - `main.py` calls `seed_demo()` during backend initialization.
+- Seed goals are registered in the `topics` table used by the catalog endpoint.
 - `demo_data.json` contains the extra concepts and edges. Each edge points from
   its prerequisite (`from`) to the step that depends on it (`to`). Its type is
   `required` or `recommended`.
@@ -38,7 +39,7 @@ path → Catalog** and select a topic. Seeding populates the catalog; it does no
 automatically add nodes to the user's saved graph. The frontend continues to load
 everything through FastAPI, not directly from this JSON file.
 
-Commit the startup code, seed script, and JSON together. The local `data.db` remains
+Commit the startup code, seed script, and JSON together. The local `app.db` remains
 ignored by Git; each teammate's backend creates and populates its own database.
 
 ## Manual use
