@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "seed": "tsx --env-file=.env src/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "better-sqlite3": "^13.2.0",
     "cors": "^2.8.6",
