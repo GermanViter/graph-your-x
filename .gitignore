@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python cache (e.g. apps/backend/__pycache__/db.cpython-314.pyc)
+__pycache__/
+*.pyc
