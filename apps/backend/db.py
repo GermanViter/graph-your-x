@@ -1,97 +1,120 @@
-"""Connexion SQLite et requêtes."""
+"""SQLite connection and queries.
+
+All SQL lives here. Route handlers in main.py call these functions and never
+write SQL themselves. Only standard SQL is used, so switching to PostgreSQL later
+means changing get_conn() and the placeholders (? -> %s).
+"""
 
 import sqlite3
-from contextlib import closing
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 
-from models import Roadmap, RoadmapEdge, RoadmapNode, Topic
+# app.db sits next to this file, no matter which folder you run from.
+DB_PATH = Path(__file__).parent / "app.db"
 
-DB_PATH = Path(__file__).parent / "data.db"
+
+@contextmanager
+def get_conn() -> Iterator[sqlite3.Connection]:
+    """Open a new connection: commit on success, roll back on error, always close.
+
+    Usage:
+        with get_conn() as conn:
+            conn.execute("...", (value,))
+    """
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row            # rows behave like dicts: row["id"]
+    conn.execute("PRAGMA foreign_keys = ON")  # SQLite ignores REFERENCES without this
+    try:
+        with conn:                            # transaction: commit or rollback
+            yield conn
+    finally:
+        conn.close()
+
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS concepts (
-    id TEXT PRIMARY KEY,
-    label TEXT NOT NULL,
-    description TEXT NOT NULL,
-    category TEXT NOT NULL CHECK (category IN ('math', 'programming', 'theory', 'tools', 'domain')),
-    difficulty INTEGER NOT NULL CHECK (difficulty BETWEEN 1 AND 5)
+    id          TEXT PRIMARY KEY,                 -- 'programmation-orientee-objet'
+    label       TEXT NOT NULL,                    -- 'Programmation orientée-objet'
+    description TEXT,
+    category    TEXT NOT NULL
+                CHECK (category IN ('math', 'programming', 'theory', 'tools', 'domain')),
+    difficulty  INTEGER NOT NULL CHECK (difficulty BETWEEN 1 AND 5)
 );
 
+-- A row (concept_id, requires_id) means: requires_id comes before concept_id.
 CREATE TABLE IF NOT EXISTS prerequisites (
-    concept_id TEXT NOT NULL REFERENCES concepts(id),
+    concept_id  TEXT NOT NULL REFERENCES concepts(id),
     requires_id TEXT NOT NULL REFERENCES concepts(id),
-    type TEXT NOT NULL CHECK (type IN ('required', 'recommended')),
-    PRIMARY KEY (concept_id, requires_id)
+    type        TEXT NOT NULL
+                CHECK (type IN ('required', 'recommended', 'corequisite')),
+    PRIMARY KEY (concept_id, requires_id)         -- no duplicate edges
+);
+
+-- The goal courses shown in the UI course picker.
+CREATE TABLE IF NOT EXISTS topics (
+    id TEXT PRIMARY KEY REFERENCES concepts(id)
 );
 """
 
-# Tous les concepts atteignables depuis le but, en remontant les préalables.
-ROADMAP_NODES_CTE = """
-WITH RECURSIVE roadmap_nodes(id) AS (
+
+def init_db() -> None:
+    """Create the tables if they don't exist yet. Safe to call many times."""
+    with get_conn() as conn:
+        conn.executescript(SCHEMA)
+
+
+# Every concept reachable from the goal by following prerequisites downward.
+# UNION (not UNION ALL) drops ids already seen, so the walk always stops,
+# even if corequisite edges form a loop.
+CHAIN_CTE = """
+WITH RECURSIVE chain(id) AS (
     SELECT ?
     UNION
     SELECT p.requires_id
     FROM prerequisites p
-
-    JOIN roadmap_nodes r ON p.concept_id = r.id
+    JOIN chain c ON p.concept_id = c.id
 )
 """
 
 
-def get_conn() -> sqlite3.Connection:
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
-    return conn
-
-
-def init_db() -> None:
-    with closing(get_conn()) as conn:
-        conn.executescript(SCHEMA)
-        conn.commit()
-
-
-def list_topics() -> list[Topic]:
-    with closing(get_conn()) as conn:
-        rows = conn.execute(
-            "SELECT id, label FROM concepts WHERE category = ? ORDER BY label",
-            ("domain",),
-        ).fetchall()
-    return [Topic(**dict(r)) for r in rows]
-
-
-def get_roadmap(goal_id: str) -> Roadmap | None:
-    with closing(get_conn()) as conn:
-        goal = conn.execute("SELECT id FROM concepts WHERE id = ?", (goal_id,)).fetchone()
-        if goal is None:
+def get_roadmap(goal_id: str) -> dict | None:
+    """Return the roadmap for goal_id in the API shape, or None if it isn't in the DB."""
+    with get_conn() as conn:
+        exists = conn.execute("SELECT 1 FROM concepts WHERE id = ?", (goal_id,)).fetchone()
+        if exists is None:
             return None
 
-        node_rows = conn.execute(
-            ROADMAP_NODES_CTE
+        nodes = conn.execute(
+            CHAIN_CTE
             + """
-            SELECT c.id, c.label, c.description, c.category, c.difficulty
-            FROM concepts c
-            JOIN roadmap_nodes r ON c.id = r.id
+            SELECT id, label, category, difficulty, description
+            FROM concepts
+            WHERE id IN (SELECT id FROM chain)
+            ORDER BY difficulty, id
             """,
             (goal_id,),
         ).fetchall()
 
-        edge_rows = conn.execute(
-            ROADMAP_NODES_CTE
+        edges = conn.execute(
+            CHAIN_CTE
             + """
-            SELECT p.requires_id AS "from", p.concept_id AS "to", p.type
-            FROM prerequisites p
-            JOIN roadmap_nodes a ON p.concept_id = a.id
-            JOIN roadmap_nodes b ON p.requires_id = b.id
+            SELECT requires_id, concept_id, type
+            FROM prerequisites
+            WHERE concept_id IN (SELECT id FROM chain)
             """,
             (goal_id,),
         ).fetchall()
 
-    return Roadmap(
-        goal=goal_id,
-        nodes=[RoadmapNode(**dict(r)) for r in node_rows],
-        edges=[RoadmapEdge(**dict(r)) for r in edge_rows],
-    )
+    return {
+        "goal": goal_id,
+        "nodes": [dict(n) for n in nodes],
+        # DB (concept_id needs requires_id) -> API (from prerequisite, to dependent)
+        "edges": [
+            {"from": e["requires_id"], "to": e["concept_id"], "type": e["type"]}
+            for e in edges
+        ],
+    }
 
 
 def list_concepts() -> list[Topic]:
@@ -122,6 +145,10 @@ def save_roadmap(roadmap: Roadmap) -> None:
             VALUES (?, ?, ?)
             ON CONFLICT (concept_id, requires_id) DO NOTHING
             """,
-            # API (from = préalable, to = dépendant) -> BD (concept_id, requires_id)
-            [(e.to, e.from_, e.type) for e in roadmap.edges],
+            # API (from prerequisite, to dependent) -> DB (concept_id, requires_id)
+            [(e["to"], e["from"], e["type"]) for e in roadmap["edges"]],
+        )
+        conn.execute(
+            "INSERT INTO topics (id) VALUES (?) ON CONFLICT (id) DO NOTHING",
+            (roadmap["goal"],),
         )

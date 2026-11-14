@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { fetchCourses, type CatalogCourse } from '../../../services/api.ts';
-import { addCatalogCourse, removeCourse } from '../../../services/catalog.ts';
+import { addCatalogCourse, getDependentCourseIds, removeCourse } from '../../../services/catalog.ts';
 import { parseCourses } from '../../../parseCourses.ts';
 
 type Props = { value: string; onChange: (value: string) => void };
@@ -64,7 +64,7 @@ export function CoursePicker({ value, onChange }: Props) {
                             onChange={(event) => setSelectedOnly(event.target.checked)} />
                         Selected only
                     </label>
-                    <p id={`${inputId}-help`}>Check to add a course and its prerequisites. Uncheck to remove it and its connections; other courses stay selected.</p>
+                    <p id={`${inputId}-help`}>Check to add a course and its prerequisites. Unchecking also removes courses that depend on it, keeping prerequisite requirements intact. Use Undo to restore the selection.</p>
                 </div>
                 {loading && <p className="pv-course-message" role="status">Loading catalog…</p>}
                 {error && <div className="pv-course-message" role="alert">
@@ -84,7 +84,10 @@ export function CoursePicker({ value, onChange }: Props) {
                                     if (event.target.checked) {
                                         change(addCatalogCourse(value, course.id, courses), `${course.id} and missing prerequisites added.`);
                                     } else {
-                                        change(removeCourse(value, course.id), `${course.id} and its connections removed.`);
+                                        const dependentCount = getDependentCourseIds(value, course.id).size - 1;
+                                        change(removeCourse(value, course.id), dependentCount > 0
+                                            ? `${course.id} and ${dependentCount} dependent ${dependentCount === 1 ? 'course' : 'courses'} removed. Use Undo to restore them.`
+                                            : `${course.id} removed. Use Undo to restore it.`);
                                     }
                                 }} />
                             <span><strong>{course.id}</strong>{course.name && <small>{course.name}</small>}</span>

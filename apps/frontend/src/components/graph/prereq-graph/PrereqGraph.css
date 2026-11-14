@@ -1,10 +1,39 @@
+.pv-graph-panel {
+    min-width: 0;
+}
+
+.pv-graph-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+}
+
+.pv-graph-toolbar button {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.pv-graph-toolbar button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.pv-graph-zoom {
+    min-width: 58px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
 .pv-graph {
     overflow: auto;
-    padding: 4px;
     background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
     background-size: 22px 22px;
     background-position: -1px -1px;
-    min-height: 420px;
+    height: clamp(320px, 65vh, 640px);
     min-width: 0;
     cursor: grab;
     user-select: none;
