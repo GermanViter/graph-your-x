@@ -19,13 +19,35 @@ export function addCatalogCourse(source: string, id: string, catalog: CatalogCou
     return source + (source && !source.endsWith('\n') ? '\n' : '') + lines.join('\n');
 }
 
-/** Remove a node and all incoming references so the parser cannot recreate it. */
-export function removeCourse(source: string, id: string): string {
-    return source.split('\n').flatMap((line) => {
+/** Find the selected course and every course that transitively requires it. */
+export function getDependentCourseIds(source: string, id: string): Set<string> {
+    const dependents = new Map<string, Set<string>>();
+    for (const line of source.split('\n')) {
         const [name, rest = ''] = line.split(':');
-        if (name.trim() === id) return [];
-        const prereqs = rest.split(',').map((part) => part.trim()).filter(Boolean);
-        if (!prereqs.includes(id)) return [line];
-        return [`${name}: ${prereqs.filter((prereq) => prereq !== id).join(', ')}`.trimEnd()];
-    }).join('\n');
+        const courseId = name.trim();
+        if (!courseId) continue;
+        for (const prereq of rest.split(',').map((part) => part.trim()).filter(Boolean)) {
+            const children = dependents.get(prereq) ?? new Set<string>();
+            children.add(courseId);
+            dependents.set(prereq, children);
+        }
+    }
+
+    const removed = new Set<string>();
+    const pending = [id];
+    while (pending.length > 0) {
+        const current = pending.pop()!;
+        if (removed.has(current)) continue;
+        removed.add(current);
+        for (const child of dependents.get(current) ?? []) pending.push(child);
+    }
+    return removed;
+}
+
+/** Remove dependent courses too; never rewrite a remaining course's requirements. */
+export function removeCourse(source: string, id: string): string {
+    const removed = getDependentCourseIds(source, id);
+    return source.split('\n')
+        .filter((line) => !removed.has(line.split(':')[0].trim()))
+        .join('\n');
 }

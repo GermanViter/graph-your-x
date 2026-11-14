@@ -95,13 +95,223 @@
     border-bottom: 1px solid var(--line);
 }
 
-.pv-course-option:last-child { border-bottom: 0; }
-.pv-course-option:has(input:checked) { background: color-mix(in srgb, var(--pick) 8%, var(--card)); }
-.pv-course-option:hover { background: color-mix(in srgb, var(--pick) 12%, var(--card)); }
-.pv-course-option span { min-width: 0; overflow-wrap: anywhere; }
-.pv-course-option small { display: block; margin-top: 3px; }
-.pv-course-message { padding: 14px; }
-.pv-course-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.pv-course-actions button:disabled { opacity: 0.5; cursor: default; }
-.pv-course-picker p { margin: 0; font-size: 14px; }
-.pv-course-picker p:empty { display: none; }
+.pv-course-option:last-child {
+    border-bottom: 0;
+}
+
+.pv-course-option:has(input:checked) {
+    background: color-mix(in srgb, var(--pick) 8%, var(--card));
+}
+
+.pv-course-option:hover {
+    background: color-mix(in srgb, var(--pick) 12%, var(--card));
+}
+
+.pv-course-option span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.pv-course-option small {
+    display: block;
+    margin-top: 3px;
+}
+
+.pv-course-message {
+    padding: 14px;
+}
+
+.pv-course-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pv-course-actions button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.pv-course-picker p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.pv-course-picker p:empty {
+    display: none;
+}
+
+.pv-manual-builder,
+.pv-manual-guide {
+    width: 100%;
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--card);
+    box-sizing: border-box;
+}
+
+.pv-manual-builder {
+    display: grid;
+    gap: 10px;
+}
+
+.pv-manual-builder h3,
+.pv-manual-builder p,
+.pv-editor-help {
+    margin: 0;
+}
+
+.pv-manual-builder p,
+.pv-manual-guide p,
+.pv-editor-help {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.pv-manual-builder label {
+    font-weight: 600;
+}
+
+.pv-manual-builder input {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink);
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.pv-manual-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.pv-manual-input-row input {
+    flex: 1 1 180px;
+}
+
+.pv-manual-builder>button {
+    justify-self: start;
+}
+
+.pv-manual-builder button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.pv-manual-builder input:focus-visible,
+.pv-manual-guide summary:focus-visible {
+    outline: 3px solid var(--pick);
+    outline-offset: 2px;
+}
+
+.pv-manual-guide summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.pv-manual-guide pre {
+    overflow-x: auto;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.pv-manual-preview {
+    overflow-wrap: anywhere;
+}
+
+.pv-manual-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pv-manual-chips li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    max-width: 100%;
+}
+
+.pv-manual-chips span {
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.pv-manual-chips button {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    padding: 8px;
+}
+
+.pv-manual-builder p:empty,
+.pv-editor>p:empty {
+    display: none;
+}
+
+.pv-editor-views {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+}
+
+.pv-editor-views button {
+    flex: 1;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.pv-editor-views button[aria-pressed='true'] {
+    background: var(--pick);
+    color: white;
+}
+
+.pv-editor-views button:focus-visible {
+    outline: 3px solid var(--pick);
+    outline-offset: 2px;
+}
+
+.pv-editor-section {
+    width: 100%;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+.pv-editor-section[hidden] {
+    display: none;
+}
+
+.pv-editor textarea {
+    line-height: 1.8;
+    tab-size: 2;
+}
