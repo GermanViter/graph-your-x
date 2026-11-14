@@ -22,10 +22,28 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-# Backend
+# Secrets: env files (keep only the empty templates), keys and certificates
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Backend
 *.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
 __pycache__/
 .venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
 package-lock.json
 *.pyc
+
+# Frontend test output
+coverage/

@@ -1,3 +1,4 @@
+import './Features.css';
 const FEATURES = [
     {
         title: "Trace the full chain",

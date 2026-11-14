@@ -1,0 +1,198 @@
+/* Graph Your X theme. Component styles consume these tokens. */
+:root {
+    color-scheme: light;
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    --text-xs: 0.8125rem;
+    --text-sm: 0.875rem;
+    --text-base: 0.9375rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.75rem;
+    --leading-body: 1.55;
+    --leading-heading: 1.2;
+    --color-page: #f6f7f8;
+    --color-surface: #ffffff;
+    --color-surface-muted: #eef1f3;
+    --color-text: #202830;
+    --color-muted: #5c6670;
+    --color-border: #d4dbe0;
+    --color-control-border: #8a959f;
+    --color-accent: #285875;
+    --color-accent-hover: #1d435b;
+    --color-accent-soft: #e8f0f5;
+    --color-on-accent: #ffffff;
+    --color-brand: #16213a;
+    --color-canvas: #fafbfc;
+    --color-edge: #8997a3;
+    --color-success: #286148;
+    --color-success-bg: #e7f1eb;
+    --color-ready: #805c1b;
+    --color-ready-bg: #faf2df;
+    --color-ready-hover: #f0e3c4;
+    --color-locked: #65717c;
+    --color-locked-bg: #f0f2f4;
+    --color-danger: #a32d2d;
+    --color-danger-bg: #fbeeee;
+    --color-backdrop: rgb(20 30 40 / 35%);
+    --shadow-drawer: -8px 0 32px rgb(20 30 40 / 12%);
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --focus-ring: 2px solid var(--color-accent);
+    --header-height: 64px;
+    --content-width: 1280px;
+    --motion-fast: 140ms;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-padding-top: calc(var(--header-height) + var(--space-4));
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--color-page);
+    color: var(--color-text);
+    font: 400 var(--text-base)/var(--leading-body) var(--font-sans);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: var(--color-accent);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    line-height: var(--leading-heading);
+}
+
+code,
+pre {
+    font-family: var(--font-mono);
+}
+
+button,
+a,
+input,
+textarea,
+select,
+summary {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:where(button, a, input, textarea, select, summary):focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 3px;
+}
+
+:where(input:not([type='checkbox']):not([type='radio']), textarea, select) {
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+}
+
+input[type='checkbox'] {
+    accent-color: var(--color-accent);
+}
+
+::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+}
+
+[role='alert'] {
+    color: var(--color-danger);
+}
+
+/* Shared button styles, used throughout the app. */
+.pv-btn,
+.page-header-btn,
+.header-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 40px;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font: 600 var(--text-sm)/1.4 var(--font-sans);
+    text-decoration: none;
+    transition: background-color var(--motion-fast), border-color var(--motion-fast);
+}
+
+.pv-btn:hover:not(:disabled),
+.page-header-btn:hover,
+.header-cta:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+}
+
+.pv-btn.alt {
+    background: var(--color-surface);
+    border-color: var(--color-control-border);
+    color: var(--color-text);
+}
+
+.pv-btn.alt:hover:not(:disabled) {
+    background: var(--color-surface-muted);
+    border-color: var(--color-muted);
+    color: var(--color-text);
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

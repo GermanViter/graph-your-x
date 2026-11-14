@@ -1,10 +1,10 @@
-# Prereq
+# Graph Your X
 
 **Voyez tout ce qui vous sépare du cours ou du sujet que vous voulez apprendre.**
 
 Projet réalisé pour **HackDécouverte 2026**.
 
-Vous choisissez un objectif (ex. *Machine Learning*) et Prereq affiche un graphe de tous les
+Vous choisissez un objectif (ex. *Machine Learning*) et Graph Your X affiche un graphe de tous les
 préalables à maîtriser avant : les préalables directs, mais aussi les préalables des préalables.
 Vous cochez ce que vous avez déjà appris et la carte vous montre ce que vous pouvez attaquer
 maintenant.
@@ -16,12 +16,18 @@ maintenant.
 - **Suivi de progression** : on marque ce qui est appris, et ce qui est accessible ensuite change de couleur.
 - **Ce que chaque concept débloque** : on voit quels sujets dépendent de celui qu'on regarde.
 - **Navigation dans le graphe** : zoom et ajustement à l'écran.
+- **Construire son propre parcours**, de trois façons :
+  - **Catalog** : ajouter un cours du catalogue, avec tous ses préalables d'un coup.
+  - **Add a step** : créer une étape et choisir ses préalables parmi celles qui existent déjà.
+  - **Edit text** : écrire le parcours en texte, une étape par ligne (`Étape : préalable, préalable`),
+    avec indentation, mise en forme automatique et validation (noms en double, cycles).
+- **Annuler et recommencer** : annuler le dernier changement ou revenir au parcours d'exemple.
 
 ## Stack
 
 | Partie | Technologies |
 |---|---|
-| Frontend | React 19, TypeScript, Vite, React Router |
+| Frontend | React 19, TypeScript, Vite, React Router (pages `/` et `/graph`) |
 | Backend | Python, FastAPI, Uvicorn |
 | Base de données | SQLite |
 
@@ -32,7 +38,7 @@ graph-your-x/
 ├── apps/
 │   ├── backend/            # API FastAPI
 │   │   ├── main.py         # routes et CORS
-│   │   ├── db.py           # connexion SQLite et requêtes
+│   │   ├── db.py           # connexion SQLite, tables et requêtes
 │   │   ├── models.py       # types du JSON (Pydantic)
 │   │   ├── seed.py         # données de départ
 │   │   └── requirements.txt
@@ -58,7 +64,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 pip install -r requirements.txt
-python seed.py                 # crée data.db et ajoute les sujets de départ
+python seed.py                 # crée app.db et ajoute les sujets de départ
 uvicorn main:app --reload
 ```
 
@@ -73,7 +79,24 @@ npm install
 npm run dev
 ```
 
-L'app est sur http://localhost:5173.
+L'app est sur http://localhost:5173 : la page d'accueil sur `/` et le graphe sur `/graph`.
+
+Par défaut, le frontend utilise le catalogue d'exemple `apps/frontend/data.json`. Pour lui faire
+lire un catalogue servi par une API, définissez `VITE_COURSES_API_URL` dans `apps/frontend/.env`.
+
+## Tests
+
+```bash
+# Backend (depuis apps/backend)
+pip install pytest httpx
+python -m pytest
+
+# Frontend (depuis apps/frontend)
+npm test
+```
+
+Le backend teste les routes de l'API et les requêtes de la base (`apps/backend/tests/`).
+Le frontend teste les services `api.ts` et `catalog.ts` avec Vitest (`src/services/__tests__/`).
 
 ## API
 
@@ -112,10 +135,11 @@ Un sujet inconnu renvoie une erreur `404`.
 
 ## Données
 
-Les concepts et leurs liens sont dans deux tables SQLite :
+La base SQLite (`apps/backend/app.db`) contient trois tables :
 
 - `concepts` : un concept par ligne (`id`, `label`, `description`, `category`, `difficulty`)
 - `prerequisites` : un lien par ligne (`concept_id` requiert `requires_id`, avec un `type`)
+- `topics` : les objectifs proposés dans le sélecteur
 
 Le graphe complet d'un sujet est obtenu avec une requête récursive (`WITH RECURSIVE`).
 Les concepts sont partagés entre les sujets : *Python* sert autant au Machine Learning qu'au reste.
@@ -126,8 +150,11 @@ Pour en ajouter, modifiez `apps/backend/seed.py` puis relancez `python seed.py`
 
 ## Pistes pour la suite
 
+- Brancher le graphe du frontend sur l'API au lieu du catalogue d'exemple.
 - Générer avec une IA les préalables d'un sujet qui n'est pas encore dans la base, puis les valider
   (pas de cycles, tous les concepts reliés à l'objectif) avant de les sauvegarder.
+  La base est déjà prête : `db.py` sait sauvegarder une roadmap validée (`save_roadmap`)
+  et lister les concepts existants pour que l'IA les réutilise (`list_concepts`).
 - Sauvegarder la progression de l'utilisateur.
 - Comptes utilisateurs.
 

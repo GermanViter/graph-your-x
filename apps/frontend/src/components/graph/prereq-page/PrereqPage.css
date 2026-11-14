@@ -1,69 +1,19 @@
 .pv {
-    --paper: #eef1f4;
-    --ink: #16213a;
-    --mute: #5a6578;
-    --line: #c9d1dc;
-    --card: #fbfcfd;
-    --go: #0e8a7d;
-    --ready: #c98a00;
-    --pick: #5a3fd0;
-    background: var(--paper);
-    color: var(--ink);
-    font: 400 17px/1.6 'Literata', Georgia, serif;
+    background: var(--color-page);
+    color: var(--color-text);
+    font: inherit;
     flex: 1;
     container-type: inline-size;
 }
 
-.pv * {
-    box-sizing: border-box;
-}
-
-.pv h1,
-.pv h2,
-.pv h3,
-.pv button,
-.pv .ui {
-    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-}
-
 .pv-wrap {
-    max-width: 1160px;
+    max-width: var(--content-width);
     margin: 0 auto;
-    padding: 0 24px 72px;
+    padding: 0 var(--space-6) var(--space-12);
 }
 
-.pv-btn {
-    font: 700 15px 'Bricolage Grotesque', sans-serif;
-    padding: 11px 16px;
-    border-radius: 6px;
-    border: 1.5px solid var(--ink);
-    background: var(--ink);
-    color: #fff;
-    cursor: pointer;
-}
-
-.pv-btn:hover:not(:disabled) {
-    background: var(--pick);
-    border-color: var(--pick);
-}
-
-.pv-btn:disabled {
-    opacity: .4;
-    cursor: not-allowed;
-}
-
-.pv-btn.alt {
-    background: transparent;
-    color: var(--ink);
-}
-
-.pv-btn:focus-visible {
-    outline: 3px solid var(--pick);
-    outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .pv * {
-        transition: none !important;
+@media (max-width: 600px) {
+    .pv-wrap {
+        padding-inline: var(--space-4);
     }
 }

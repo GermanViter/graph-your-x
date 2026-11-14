@@ -8,11 +8,11 @@
 }
 
 .pv-node text {
-    font: 600 13px 'Bricolage Grotesque', sans-serif;
+    font: 600 13px var(--font-sans);
     pointer-events: none;
 }
 
 .pv-node:focus-visible rect {
-    stroke: var(--pick);
+    stroke: var(--color-accent);
     stroke-width: 3;
 }

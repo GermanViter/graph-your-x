@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef, useState } from 'react';
 import './Prereq.css';
 import { CurriculumEditor } from '../../components/graph/curriculum-editor/CurriculumEditor.tsx';
 import PageHeader from '../../components/page-header/PageHeader.tsx';
@@ -7,35 +8,50 @@ import { usePrereqPlanner } from '../../hooks/usePrereqPlanner.ts';
 import { ProgressSummary } from './components/progress-summary/ProgressSummary.tsx';
 
 export default function Graph() {
-    // storageKey keeps progress and the curriculum between visits
     const planner = usePrereqPlanner({ storageKey: 'prereq-graph' });
+    const [editorOpen, setEditorOpen] = useState(false);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const titleId = useId();
+
+    useEffect(() => {
+        if (!editorOpen) return;
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+        dialog.showModal();
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            if (dialog.open) dialog.close();
+        };
+    }, [editorOpen]);
 
     return (
         <PrereqPage>
             <div className="graph-top">
                 <PageHeader
                     title="Graph viewer"
-                    customAction={<p>Progress and courses are saved in this browser.</p>}
+                    customAction={<button type="button" className="pv-btn" aria-haspopup="dialog"
+                        onClick={() => setEditorOpen(true)}>Manage path</button>}
                 />
+                <p className="graph-save-note">Progress and courses are saved in this browser.</p>
             </div>
-
             <ProgressSummary planner={planner} />
             <PrereqWorkspace planner={planner} />
 
-            <section className="graph-edit">
-                <div>
-                    <h2>Your courses</h2>
-                    <p>
-                        One line per course as <code>Name: prerequisite, prerequisite</code>. Edit the list to match
-                        your own program.
-                    </p>
+            <dialog ref={dialogRef} className="graph-editor-drawer" aria-labelledby={titleId}
+                onClose={() => setEditorOpen(false)}>
+                <header className="graph-drawer-header">
+                    <div>
+                        <h2 id={titleId}>Manage your path</h2>
+                        <p>Select courses, add learning steps, or edit your path.</p>
+                    </div>
+                    <button type="button" className="pv-btn alt" onClick={() => dialogRef.current?.close()}>Close</button>
+                </header>
+                <div className="graph-drawer-content">
+                    <CurriculumEditor value={planner.source} onChange={planner.setSource} onReset={planner.resetCurriculum} />
                 </div>
-                <CurriculumEditor
-                    value={planner.source}
-                    onChange={planner.setSource}
-                    onReset={planner.resetCurriculum}
-                />
-            </section>
+            </dialog>
         </PrereqPage>
     );
 }
