@@ -87,71 +87,8 @@ def get_roadmap(goal_id: str) -> Roadmap | None:
             (goal_id,),
         ).fetchall()
 
-<<<<<<< HEAD
     return Roadmap(
         goal=goal_id,
         nodes=[RoadmapNode(**dict(r)) for r in node_rows],
         edges=[RoadmapEdge(**dict(r)) for r in edge_rows],
     )
-=======
-    return {
-        "goal": goal_id,
-        "nodes": [dict(n) for n in nodes],
-        # DB (concept_id needs requires_id) -> API (from prerequisite, to dependent)
-        "edges": [
-            {"from": e["requires_id"], "to": e["concept_id"], "type": e["type"]}
-            for e in edges
-        ],
-    }
-
-
-def list_concepts() -> list[dict]:
-    """All concept ids and labels, passed to the LLM so it reuses existing ids."""
-    with get_conn() as conn:
-        rows = conn.execute("SELECT id, label FROM concepts ORDER BY id").fetchall()
-    return [dict(r) for r in rows]
-
-
-def list_topics() -> list[dict]:
-    """The goal courses for the UI picker: [{"id": ..., "label": ...}]."""
-    with get_conn() as conn:
-        rows = conn.execute(
-            """
-            SELECT c.id, c.label
-            FROM topics t
-            JOIN concepts c ON c.id = t.id
-            ORDER BY c.label
-            """
-        ).fetchall()
-    return [dict(r) for r in rows]
-
-
-def save_roadmap(roadmap: dict) -> None:
-    """Save a VALIDATED roadmap (API shape). All-or-nothing; safe to call twice.
-
-    Existing concepts are kept as they are, so hand-checked seed data wins over
-    whatever the LLM wrote for the same id.
-    """
-    with get_conn() as conn:
-        conn.executemany(
-            """
-            INSERT INTO concepts (id, label, description, category, difficulty)
-            VALUES (:id, :label, :description, :category, :difficulty)
-            ON CONFLICT (id) DO NOTHING
-            """,
-            roadmap["nodes"],
-        )
-        conn.executemany(
-            """
-            INSERT INTO prerequisites (concept_id, requires_id, type)
-            VALUES (?, ?, ?)
-            ON CONFLICT (concept_id, requires_id) DO NOTHING
-            """,
-            # API (from prerequisite, to dependent) -> DB (concept_id, requires_id)
-            [(e["to"], e["from"], e["type"]) for e in roadmap["edges"]],
-        )
-        conn.execute(
-            "INSERT INTO topics (id) VALUES (?) ON CONFLICT (id) DO NOTHING",
-            (roadmap["goal"],),
-        )
->>>>>>> 69553a8 (list_topics)
