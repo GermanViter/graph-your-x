@@ -21,3 +21,39 @@
     outline: 3px solid var(--pick);
     outline-offset: 2px;
 }
+
+.pv-course-picker {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.pv-course-picker label {
+    font-weight: 600;
+}
+
+.pv-course-picker select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--ink);
+    font: inherit;
+}
+
+.pv-course-picker select:focus-visible {
+    outline: 3px solid var(--pick);
+    outline-offset: 2px;
+}
+
+.pv-course-picker p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.pv-course-picker p:empty {
+    display: none;
+}
