@@ -8,12 +8,12 @@ export const GRAPH_PADDING = 28;
 
 // Colors and labels for each course status
 export const STATUS_STYLES: Record<Status, { fill: string; stroke: string; text: string; label: string }> = {
-    done: { fill: "#0e8a7d", stroke: "#0e8a7d", text: "#fff", label: "Completed" },
-    ready: { fill: "#fff6dd", stroke: "#c98a00", text: "#16213a", label: "Ready to take" },
-    locked: { fill: "#f3f5f8", stroke: "#b6c0cd", text: "#7a8599", label: "Locked" },
+    done: { fill: "var(--color-success-bg)", stroke: "var(--color-success)", text: "var(--color-success)", label: "Completed" },
+    ready: { fill: "var(--color-ready-bg)", stroke: "var(--color-ready)", text: "var(--color-ready)", label: "Ready to take" },
+    locked: { fill: "var(--color-locked-bg)", stroke: "var(--color-control-border)", text: "var(--color-locked)", label: "Locked" },
 };
 
-export const SELECTED_COLOR = "#5a3fd0";
+export const SELECTED_COLOR = "var(--color-accent)";
 
 // Sample curriculum in the "Name: prereq, prereq" format
 export const SAMPLE_CURRICULUM = `Intro Programming:

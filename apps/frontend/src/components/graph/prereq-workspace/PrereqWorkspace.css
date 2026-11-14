@@ -1,8 +1,8 @@
 .pv-stage {
     scroll-margin-top: 80px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     display: grid;
     grid-template-columns: 1fr 300px;
     overflow: hidden;
@@ -15,6 +15,6 @@
 
     .pv-side {
         border-left: 0;
-        border-top: 1px solid var(--line);
+        border-top: 1px solid var(--color-border);
     }
 }

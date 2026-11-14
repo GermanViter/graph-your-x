@@ -9,13 +9,13 @@ function LogoMark() {
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
                 d="M6 7 C12 7 11 12 18 12 M6 17 C12 17 11 12 18 12"
-                stroke="#ffffff"
+                stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
             />
-            <circle cx="6" cy="7" r="2.6" fill="#ffffff" />
-            <circle cx="6" cy="17" r="2.6" fill="#ffffff" />
-            <circle cx="18" cy="12" r="3.2" fill="#ffffff" />
+            <circle cx="6" cy="7" r="2.6" fill="currentColor" />
+            <circle cx="6" cy="17" r="2.6" fill="currentColor" />
+            <circle cx="18" cy="12" r="3.2" fill="currentColor" />
         </svg>
     );
 }

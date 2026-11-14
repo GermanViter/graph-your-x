@@ -1,17 +1,17 @@
 .pv-legend {
     display: flex;
-    gap: 20px;
+    gap: var(--space-5);
     flex-wrap: wrap;
     padding: 14px 0 0;
-    font: 500 14px 'Bricolage Grotesque', sans-serif;
-    color: var(--mute);
+    font: 500 14px var(--font-sans);
+    color: var(--color-muted);
 }
 
 .pv-legend i {
     display: inline-block;
     width: 12px;
     height: 12px;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     margin-right: 7px;
     vertical-align: -1px;
 }

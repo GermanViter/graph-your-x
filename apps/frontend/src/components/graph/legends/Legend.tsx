@@ -12,7 +12,7 @@ export function Legend() {
                 </span>
             ))}
             <span>
-                <i style={{ background: "#fff", border: `3px solid ${SELECTED_COLOR}` }} />
+                <i style={{ background: "var(--color-surface)", border: `3px solid ${SELECTED_COLOR}` }} />
                 Selected course
             </span>
         </div>
