@@ -1,4 +1,5 @@
 import './CurriculumEditor.css';
+import { CoursePicker } from './CoursePicker.tsx';
 
 type Props = {
     value: string;
@@ -10,6 +11,7 @@ type Props = {
 export function CurriculumEditor({ value, onChange, onReset }: Props) {
     return (
         <div className="pv-editor">
+            <CoursePicker value={value} onChange={onChange} />
             <textarea
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
