@@ -92,3 +92,36 @@ def get_roadmap(goal_id: str) -> Roadmap | None:
         nodes=[RoadmapNode(**dict(r)) for r in node_rows],
         edges=[RoadmapEdge(**dict(r)) for r in edge_rows],
     )
+
+
+def list_concepts() -> list[Topic]:
+    """Tous les ids et labels, passés au LLM pour qu'il réutilise les ids existants."""
+    with closing(get_conn()) as conn:
+        rows = conn.execute("SELECT id, label FROM concepts ORDER BY id").fetchall()
+    return [Topic(**dict(r)) for r in rows]
+
+
+def save_roadmap(roadmap: Roadmap) -> None:
+    """Sauvegarde une roadmap VALIDÉE. Tout ou rien ; peut être rappelée sans risque.
+
+    Les concepts existants sont gardés tels quels : les données du seed,
+    vérifiées à la main, ont priorité sur ce que le LLM a écrit pour le même id.
+    """
+    with closing(get_conn()) as conn, conn:
+        conn.executemany(
+            """
+            INSERT INTO concepts (id, label, description, category, difficulty)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT (id) DO NOTHING
+            """,
+            [(n.id, n.label, n.description, n.category, n.difficulty) for n in roadmap.nodes],
+        )
+        conn.executemany(
+            """
+            INSERT INTO prerequisites (concept_id, requires_id, type)
+            VALUES (?, ?, ?)
+            ON CONFLICT (concept_id, requires_id) DO NOTHING
+            """,
+            # API (from = préalable, to = dépendant) -> BD (concept_id, requires_id)
+            [(e.to, e.from_, e.type) for e in roadmap.edges],
+        )
