@@ -1,0 +1,1491 @@
+{
+  "concepts": [
+    {
+      "id": "demo-project-planning",
+      "label": "Project Planning",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice project planning in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-version-control",
+      "label": "Version Control",
+      "category": "tools",
+      "difficulty": 1,
+      "description": "Practice version control in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-testing-basics",
+      "label": "Testing Basics",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice testing basics in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-visual-composition",
+      "label": "Visual Composition",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice visual composition in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-feedback",
+      "label": "Giving and Using Feedback",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice giving and using feedback in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-command-line",
+      "label": "Command-Line Basics",
+      "category": "tools",
+      "difficulty": 1,
+      "description": "Practice command-line basics in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-cpp",
+      "label": "C++ Foundations",
+      "category": "programming",
+      "difficulty": 1,
+      "description": "Practice c++ foundations in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-engine",
+      "label": "Game Engine Basics",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice game engine basics in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-models",
+      "label": "3D Modeling",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice 3d modeling in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-textures",
+      "label": "Materials and Textures",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice materials and textures in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-physics",
+      "label": "Game Physics",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice game physics in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-gameplay",
+      "label": "Gameplay Programming",
+      "category": "programming",
+      "difficulty": 3,
+      "description": "Practice gameplay programming in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-animation",
+      "label": "Character Animation",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice character animation in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-levels",
+      "label": "Level Design",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice level design in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-playtesting",
+      "label": "Playtesting and Bug Fixes",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice playtesting and bug fixes in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game-release",
+      "label": "Package a Game Release",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice package a game release in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-game",
+      "label": "Game Development",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample game development roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-mobile-dart",
+      "label": "Dart Foundations",
+      "category": "programming",
+      "difficulty": 1,
+      "description": "Practice dart foundations in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-widgets",
+      "label": "Flutter Widgets",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice flutter widgets in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-state",
+      "label": "Application State",
+      "category": "programming",
+      "difficulty": 3,
+      "description": "Practice application state in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-async",
+      "label": "Asynchronous Programming",
+      "category": "programming",
+      "difficulty": 2,
+      "description": "Practice asynchronous programming in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-storage",
+      "label": "Local App Storage",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice local app storage in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-api",
+      "label": "Mobile API Clients",
+      "category": "programming",
+      "difficulty": 3,
+      "description": "Practice mobile api clients in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-auth",
+      "label": "Authentication Flows",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice authentication flows in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-accessibility",
+      "label": "Accessible Mobile Screens",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice accessible mobile screens in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-testing",
+      "label": "Mobile App Testing",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice mobile app testing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile-release",
+      "label": "Prepare an App Store Build",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice prepare an app store build in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-mobile",
+      "label": "Mobile App Development",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample mobile app development roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-robotics-circuits",
+      "label": "Basic Circuits",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice basic circuits in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-electronics",
+      "label": "Electronic Components",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice electronic components in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-controllers",
+      "label": "Microcontrollers",
+      "category": "programming",
+      "difficulty": 2,
+      "description": "Practice microcontrollers in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-sensors",
+      "label": "Reading Sensors",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice reading sensors in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-motors",
+      "label": "Motor Control",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice motor control in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-kinematics",
+      "label": "Robot Kinematics",
+      "category": "math",
+      "difficulty": 3,
+      "description": "Practice robot kinematics in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-control",
+      "label": "Feedback Control",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice feedback control in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-software",
+      "label": "Robot Software Architecture",
+      "category": "programming",
+      "difficulty": 4,
+      "description": "Practice robot software architecture in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-integration",
+      "label": "Robot Hardware Integration",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice robot hardware integration in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics-testing",
+      "label": "Robot Simulation and Testing",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice robot simulation and testing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-robotics",
+      "label": "Robotics",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample robotics roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-cloud-containers",
+      "label": "Containers",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice containers in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-images",
+      "label": "Building Container Images",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice building container images in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-networks",
+      "label": "Cloud Networks",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice cloud networks in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-deployment",
+      "label": "Deploy a Service",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice deploy a service in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-pipelines",
+      "label": "CI and CD Pipelines",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice ci and cd pipelines in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-monitoring",
+      "label": "Service Monitoring",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice service monitoring in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-logs",
+      "label": "Logs and Traces",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice logs and traces in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-infrastructure",
+      "label": "Infrastructure as Code",
+      "category": "programming",
+      "difficulty": 4,
+      "description": "Practice infrastructure as code in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-security",
+      "label": "Cloud Access Controls",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice cloud access controls in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud-reliability",
+      "label": "Reliability and Recovery",
+      "category": "theory",
+      "difficulty": 5,
+      "description": "Practice reliability and recovery in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-cloud",
+      "label": "Cloud and DevOps",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample cloud and devops roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-data-loading",
+      "label": "Loading Structured Data",
+      "category": "tools",
+      "difficulty": 1,
+      "description": "Practice loading structured data in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-sql",
+      "label": "SQL Queries",
+      "category": "programming",
+      "difficulty": 2,
+      "description": "Practice sql queries in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-cleaning",
+      "label": "Data Cleaning",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice data cleaning in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-pandas",
+      "label": "Pandas DataFrames",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice pandas dataframes in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-exploration",
+      "label": "Exploratory Data Analysis",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice exploratory data analysis in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-features",
+      "label": "Feature Preparation",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice feature preparation in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-pipelines",
+      "label": "Repeatable Data Pipelines",
+      "category": "programming",
+      "difficulty": 4,
+      "description": "Practice repeatable data pipelines in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-dashboards",
+      "label": "Analytics Dashboards",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice analytics dashboards in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-storytelling",
+      "label": "Explaining Data Findings",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice explaining data findings in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data-project",
+      "label": "End-to-End Analytics Project",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice end-to-end analytics project in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-data",
+      "label": "Data Analytics",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample data analytics roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-design-research",
+      "label": "User Research",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice user research in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-problem",
+      "label": "Define the User Problem",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice define the user problem in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-architecture",
+      "label": "Information Architecture",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice information architecture in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-wireframes",
+      "label": "Wireframing",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice wireframing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-typography",
+      "label": "Typography",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice typography in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-color",
+      "label": "Color and Contrast",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice color and contrast in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-interaction",
+      "label": "Interaction Design",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice interaction design in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-prototypes",
+      "label": "Interactive Prototypes",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice interactive prototypes in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-usability",
+      "label": "Usability Testing",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice usability testing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design-handoff",
+      "label": "Design Handoff",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice design handoff in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-design",
+      "label": "UX and Interface Design",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample ux and interface design roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-music-rhythm",
+      "label": "Rhythm and Timing",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice rhythm and timing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-recording",
+      "label": "Recording Audio",
+      "category": "tools",
+      "difficulty": 1,
+      "description": "Practice recording audio in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-midi",
+      "label": "MIDI Sequencing",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice midi sequencing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-synthesis",
+      "label": "Sound Synthesis",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice sound synthesis in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-arrangement",
+      "label": "Song Arrangement",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice song arrangement in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-editing",
+      "label": "Audio Editing",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice audio editing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-eq",
+      "label": "Equalization",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice equalization in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-compression",
+      "label": "Dynamics and Compression",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice dynamics and compression in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-mixing",
+      "label": "Mixing a Track",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice mixing a track in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music-mastering",
+      "label": "Mastering and Export",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice mastering and export in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-music",
+      "label": "Music Production",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample music production roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-art-drawing",
+      "label": "Drawing Foundations",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice drawing foundations in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-perspective",
+      "label": "Perspective",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice perspective in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-anatomy",
+      "label": "Figure and Form",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice figure and form in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-brushes",
+      "label": "Digital Brush Techniques",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice digital brush techniques in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-linework",
+      "label": "Clean Linework",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice clean linework in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-shading",
+      "label": "Light and Shading",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice light and shading in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-palette",
+      "label": "Color Palettes",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice color palettes in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-composition",
+      "label": "Illustration Composition",
+      "category": "theory",
+      "difficulty": 3,
+      "description": "Practice illustration composition in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-character",
+      "label": "Character Illustration",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice character illustration in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art-portfolio",
+      "label": "Illustration Portfolio",
+      "category": "tools",
+      "difficulty": 5,
+      "description": "Practice illustration portfolio in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-art",
+      "label": "Digital Illustration",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample digital illustration roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    },
+    {
+      "id": "demo-photo-exposure",
+      "label": "Camera Exposure",
+      "category": "theory",
+      "difficulty": 1,
+      "description": "Practice camera exposure in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-lenses",
+      "label": "Lenses and Focal Length",
+      "category": "tools",
+      "difficulty": 1,
+      "description": "Practice lenses and focal length in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-focus",
+      "label": "Focus and Depth of Field",
+      "category": "tools",
+      "difficulty": 2,
+      "description": "Practice focus and depth of field in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-lighting",
+      "label": "Working with Light",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice working with light in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-composition",
+      "label": "Photographic Composition",
+      "category": "theory",
+      "difficulty": 2,
+      "description": "Practice photographic composition in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-raw",
+      "label": "RAW Processing",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice raw processing in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-retouch",
+      "label": "Photo Retouching",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice photo retouching in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-grading",
+      "label": "Color Grading",
+      "category": "tools",
+      "difficulty": 3,
+      "description": "Practice color grading in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-story",
+      "label": "Visual Storytelling",
+      "category": "theory",
+      "difficulty": 4,
+      "description": "Practice visual storytelling in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo-portfolio",
+      "label": "Photography Portfolio",
+      "category": "tools",
+      "difficulty": 4,
+      "description": "Practice photography portfolio in a small hands-on project. This is illustrative demo content."
+    },
+    {
+      "id": "demo-photo",
+      "label": "Photography",
+      "category": "domain",
+      "difficulty": 5,
+      "description": "A sample photography roadmap for testing graph navigation, progress, and optional recommendations. Not an official curriculum."
+    }
+  ],
+  "edges": [
+    {
+      "from": "demo-command-line",
+      "to": "demo-game-cpp",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-game-cpp",
+      "to": "demo-game-engine",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-game-models",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-game-models",
+      "to": "demo-game-textures",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-engine",
+      "to": "demo-game-physics",
+      "type": "required"
+    },
+    {
+      "from": "linear-algebra",
+      "to": "demo-game-physics",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-game-engine",
+      "to": "demo-game-gameplay",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-physics",
+      "to": "demo-game-gameplay",
+      "type": "required"
+    },
+    {
+      "from": "demo-version-control",
+      "to": "demo-game-gameplay",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-game-models",
+      "to": "demo-game-animation",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-gameplay",
+      "to": "demo-game-levels",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-textures",
+      "to": "demo-game-levels",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-animation",
+      "to": "demo-game-levels",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-levels",
+      "to": "demo-game-playtesting",
+      "type": "required"
+    },
+    {
+      "from": "demo-testing-basics",
+      "to": "demo-game-playtesting",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-game-playtesting",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-game-playtesting",
+      "to": "demo-game-release",
+      "type": "required"
+    },
+    {
+      "from": "demo-project-planning",
+      "to": "demo-game-release",
+      "type": "required"
+    },
+    {
+      "from": "demo-game-release",
+      "to": "demo-game",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-dart",
+      "to": "demo-mobile-widgets",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-widgets",
+      "to": "demo-mobile-state",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-dart",
+      "to": "demo-mobile-async",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-state",
+      "to": "demo-mobile-storage",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-async",
+      "to": "demo-mobile-api",
+      "type": "required"
+    },
+    {
+      "from": "http-basics",
+      "to": "demo-mobile-api",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-api",
+      "to": "demo-mobile-auth",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-state",
+      "to": "demo-mobile-auth",
+      "type": "required"
+    },
+    {
+      "from": "security-principles",
+      "to": "demo-mobile-auth",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-mobile-widgets",
+      "to": "demo-mobile-accessibility",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-mobile-accessibility",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-mobile-storage",
+      "to": "demo-mobile-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-auth",
+      "to": "demo-mobile-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-accessibility",
+      "to": "demo-mobile-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-testing-basics",
+      "to": "demo-mobile-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-mobile-testing",
+      "to": "demo-mobile-release",
+      "type": "required"
+    },
+    {
+      "from": "demo-project-planning",
+      "to": "demo-mobile-release",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-mobile-release",
+      "to": "demo-mobile",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-circuits",
+      "to": "demo-robotics-electronics",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-electronics",
+      "to": "demo-robotics-controllers",
+      "type": "required"
+    },
+    {
+      "from": "python",
+      "to": "demo-robotics-controllers",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-robotics-controllers",
+      "to": "demo-robotics-sensors",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-controllers",
+      "to": "demo-robotics-motors",
+      "type": "required"
+    },
+    {
+      "from": "linear-algebra",
+      "to": "demo-robotics-kinematics",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-robotics-sensors",
+      "to": "demo-robotics-control",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-motors",
+      "to": "demo-robotics-control",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-kinematics",
+      "to": "demo-robotics-control",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-control",
+      "to": "demo-robotics-software",
+      "type": "required"
+    },
+    {
+      "from": "python",
+      "to": "demo-robotics-software",
+      "type": "required"
+    },
+    {
+      "from": "demo-version-control",
+      "to": "demo-robotics-software",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-robotics-software",
+      "to": "demo-robotics-integration",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-electronics",
+      "to": "demo-robotics-integration",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-integration",
+      "to": "demo-robotics-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-testing-basics",
+      "to": "demo-robotics-testing",
+      "type": "required"
+    },
+    {
+      "from": "demo-robotics-testing",
+      "to": "demo-robotics",
+      "type": "required"
+    },
+    {
+      "from": "linux-basics",
+      "to": "demo-cloud-containers",
+      "type": "required"
+    },
+    {
+      "from": "demo-command-line",
+      "to": "demo-cloud-containers",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-containers",
+      "to": "demo-cloud-images",
+      "type": "required"
+    },
+    {
+      "from": "demo-version-control",
+      "to": "demo-cloud-images",
+      "type": "recommended"
+    },
+    {
+      "from": "networking-fundamentals",
+      "to": "demo-cloud-networks",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-images",
+      "to": "demo-cloud-deployment",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-networks",
+      "to": "demo-cloud-deployment",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-deployment",
+      "to": "demo-cloud-pipelines",
+      "type": "required"
+    },
+    {
+      "from": "demo-version-control",
+      "to": "demo-cloud-pipelines",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-deployment",
+      "to": "demo-cloud-monitoring",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-monitoring",
+      "to": "demo-cloud-logs",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-networks",
+      "to": "demo-cloud-infrastructure",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-pipelines",
+      "to": "demo-cloud-infrastructure",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-infrastructure",
+      "to": "demo-cloud-security",
+      "type": "required"
+    },
+    {
+      "from": "security-principles",
+      "to": "demo-cloud-security",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-cloud-logs",
+      "to": "demo-cloud-reliability",
+      "type": "required"
+    },
+    {
+      "from": "demo-cloud-security",
+      "to": "demo-cloud-reliability",
+      "type": "required"
+    },
+    {
+      "from": "demo-testing-basics",
+      "to": "demo-cloud-reliability",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-cloud-reliability",
+      "to": "demo-cloud",
+      "type": "required"
+    },
+    {
+      "from": "python",
+      "to": "demo-data-loading",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-loading",
+      "to": "demo-data-cleaning",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-cleaning",
+      "to": "demo-data-pandas",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-pandas",
+      "to": "demo-data-exploration",
+      "type": "required"
+    },
+    {
+      "from": "statistics",
+      "to": "demo-data-exploration",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-exploration",
+      "to": "demo-data-features",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-features",
+      "to": "demo-data-pipelines",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-sql",
+      "to": "demo-data-pipelines",
+      "type": "required"
+    },
+    {
+      "from": "demo-version-control",
+      "to": "demo-data-pipelines",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-data-exploration",
+      "to": "demo-data-dashboards",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-data-dashboards",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-data-dashboards",
+      "to": "demo-data-storytelling",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-data-storytelling",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-data-pipelines",
+      "to": "demo-data-project",
+      "type": "required"
+    },
+    {
+      "from": "demo-data-storytelling",
+      "to": "demo-data-project",
+      "type": "required"
+    },
+    {
+      "from": "demo-project-planning",
+      "to": "demo-data-project",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-data-project",
+      "to": "demo-data",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-research",
+      "to": "demo-design-problem",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-problem",
+      "to": "demo-design-architecture",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-architecture",
+      "to": "demo-design-wireframes",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-design-typography",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-design-wireframes",
+      "to": "demo-design-interaction",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-interaction",
+      "to": "demo-design-prototypes",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-typography",
+      "to": "demo-design-prototypes",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-color",
+      "to": "demo-design-prototypes",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-prototypes",
+      "to": "demo-design-usability",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-research",
+      "to": "demo-design-usability",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-design-usability",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-design-usability",
+      "to": "demo-design-handoff",
+      "type": "required"
+    },
+    {
+      "from": "html",
+      "to": "demo-design-handoff",
+      "type": "recommended"
+    },
+    {
+      "from": "css",
+      "to": "demo-design-handoff",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-design-handoff",
+      "to": "demo-design",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-rhythm",
+      "to": "demo-music-midi",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-midi",
+      "to": "demo-music-synthesis",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-midi",
+      "to": "demo-music-arrangement",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-synthesis",
+      "to": "demo-music-arrangement",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-recording",
+      "to": "demo-music-editing",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-editing",
+      "to": "demo-music-eq",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-editing",
+      "to": "demo-music-compression",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-arrangement",
+      "to": "demo-music-mixing",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-eq",
+      "to": "demo-music-mixing",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-compression",
+      "to": "demo-music-mixing",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-music-mixing",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-music-mixing",
+      "to": "demo-music-mastering",
+      "type": "required"
+    },
+    {
+      "from": "demo-music-mastering",
+      "to": "demo-music",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-drawing",
+      "to": "demo-art-perspective",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-drawing",
+      "to": "demo-art-anatomy",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-drawing",
+      "to": "demo-art-brushes",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-brushes",
+      "to": "demo-art-linework",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-perspective",
+      "to": "demo-art-linework",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-perspective",
+      "to": "demo-art-shading",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-art-palette",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-art-palette",
+      "to": "demo-art-composition",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-shading",
+      "to": "demo-art-composition",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-art-composition",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-anatomy",
+      "to": "demo-art-character",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-linework",
+      "to": "demo-art-character",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-composition",
+      "to": "demo-art-character",
+      "type": "required"
+    },
+    {
+      "from": "demo-art-character",
+      "to": "demo-art-portfolio",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-art-portfolio",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-project-planning",
+      "to": "demo-art-portfolio",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-art-portfolio",
+      "to": "demo-art",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-exposure",
+      "to": "demo-photo-focus",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-lenses",
+      "to": "demo-photo-focus",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-exposure",
+      "to": "demo-photo-lighting",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-focus",
+      "to": "demo-photo-composition",
+      "type": "required"
+    },
+    {
+      "from": "demo-visual-composition",
+      "to": "demo-photo-composition",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-photo-lighting",
+      "to": "demo-photo-raw",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-raw",
+      "to": "demo-photo-retouch",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-raw",
+      "to": "demo-photo-grading",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-composition",
+      "to": "demo-photo-story",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-retouch",
+      "to": "demo-photo-story",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-grading",
+      "to": "demo-photo-story",
+      "type": "required"
+    },
+    {
+      "from": "demo-photo-story",
+      "to": "demo-photo-portfolio",
+      "type": "required"
+    },
+    {
+      "from": "demo-design-feedback",
+      "to": "demo-photo-portfolio",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-project-planning",
+      "to": "demo-photo-portfolio",
+      "type": "recommended"
+    },
+    {
+      "from": "demo-photo-portfolio",
+      "to": "demo-photo",
+      "type": "required"
+    }
+  ]
+}

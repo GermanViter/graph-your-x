@@ -1,0 +1,20 @@
+.pv-stage {
+    scroll-margin-top: 80px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    overflow: hidden;
+}
+
+@container (max-width: 860px) {
+    .pv-stage {
+        grid-template-columns: 1fr;
+    }
+
+    .pv-side {
+        border-left: 0;
+        border-top: 1px solid var(--color-border);
+    }
+}

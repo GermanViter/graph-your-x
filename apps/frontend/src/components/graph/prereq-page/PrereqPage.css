@@ -1,0 +1,19 @@
+.pv {
+    background: var(--color-page);
+    color: var(--color-text);
+    font: inherit;
+    flex: 1;
+    container-type: inline-size;
+}
+
+.pv-wrap {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-12);
+}
+
+@media (max-width: 600px) {
+    .pv-wrap {
+        padding-inline: var(--space-4);
+    }
+}

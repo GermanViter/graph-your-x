@@ -1,0 +1,317 @@
+.pv-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.pv textarea {
+    width: 100%;
+    height: 300px;
+    font: 14px/1.6 var(--font-mono);
+    padding: 14px;
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text);
+    resize: vertical;
+}
+
+.pv textarea:focus-visible,
+.pv-course-picker input:focus-visible,
+.pv-course-picker summary:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.pv-course-picker {
+    width: 100%;
+    min-width: 0;
+    display: grid;
+    gap: var(--space-3);
+}
+
+.pv-course-menu {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    overflow: hidden;
+}
+
+.pv-course-menu summary {
+    padding: 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.pv-course-menu summary span {
+    display: inline-block;
+    margin-left: 12px;
+    font-size: var(--text-xs);
+    font-weight: 400;
+}
+
+.pv-course-controls {
+    padding: 0 14px 14px;
+    display: grid;
+    gap: 10px;
+}
+
+.pv-course-controls input[type='search'] {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+}
+
+.pv-course-filter,
+.pv-course-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+}
+
+.pv-course-picker input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+}
+
+.pv-course-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border-top: 1px solid var(--color-border);
+}
+
+.pv-course-option {
+    padding: 12px 14px;
+    min-height: 48px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pv-course-option:last-child {
+    border-bottom: 0;
+}
+
+.pv-course-option:has(input:checked) {
+    background: var(--color-accent-soft);
+}
+
+.pv-course-option:hover {
+    background: var(--color-surface-muted);
+}
+
+.pv-course-option span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.pv-course-option small {
+    display: block;
+    margin-top: 3px;
+}
+
+.pv-course-message {
+    padding: 14px;
+}
+
+.pv-course-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.pv-course-actions button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.pv-course-picker p {
+    margin: 0;
+    font-size: var(--text-sm);
+}
+
+.pv-course-picker p:empty {
+    display: none;
+}
+
+.pv-manual-builder,
+.pv-manual-guide {
+    width: 100%;
+    min-width: 0;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-sizing: border-box;
+}
+
+.pv-manual-builder {
+    display: grid;
+    gap: 10px;
+}
+
+.pv-manual-builder h3,
+.pv-manual-builder p,
+.pv-editor-help {
+    margin: 0;
+}
+
+.pv-manual-builder p,
+.pv-manual-guide p,
+.pv-editor-help {
+    font-size: var(--text-sm);
+    line-height: 1.5;
+}
+
+.pv-manual-builder label {
+    font-weight: 600;
+}
+
+.pv-manual-builder input {
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.pv-manual-input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.pv-manual-input-row input {
+    flex: 1 1 180px;
+}
+
+.pv-manual-builder>button {
+    justify-self: start;
+}
+
+.pv-manual-builder button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.pv-manual-builder input:focus-visible,
+.pv-manual-guide summary:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.pv-manual-guide summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.pv-manual-guide pre {
+    overflow-x: auto;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+}
+
+.pv-manual-preview {
+    overflow-wrap: anywhere;
+}
+
+.pv-manual-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pv-manual-chips li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 4px 8px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    max-width: 100%;
+}
+
+.pv-manual-chips span {
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.pv-manual-chips button {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    padding: var(--space-2);
+}
+
+.pv-manual-builder p:empty,
+.pv-editor>p:empty {
+    display: none;
+}
+
+.pv-editor-views {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-page);
+}
+
+.pv-editor-views button {
+    flex: 1;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.pv-editor-views button[aria-pressed='true'] {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+}
+
+.pv-editor-views button:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.pv-editor-section {
+    width: 100%;
+    display: grid;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.pv-editor-section[hidden] {
+    display: none;
+}
+
+.pv-editor textarea {
+    line-height: 1.8;
+    tab-size: 2;
+}
