@@ -32,6 +32,7 @@ WITH RECURSIVE roadmap_nodes(id) AS (
     UNION
     SELECT p.requires_id
     FROM prerequisites p
+
     JOIN roadmap_nodes r ON p.concept_id = r.id
 )
 """
