@@ -1,5 +1,5 @@
 import "./PrereqGraph.css";
-import { useRef, useState, type PointerEvent } from "react";
+import { useLayoutEffect, useRef, useState, type PointerEvent } from "react";
 import { getStatus, graphSize } from "../../../parseCourses";
 import type { Course } from "../../../types/types";
 import { GraphEdge } from "../graph-edge/GraphEdge";
@@ -17,6 +17,40 @@ type Props = {
 export function PrereqGraph({ courses, byId, selectedId, chain, done, onSelect }: Props) {
     const { width, height } = graphSize(courses);
     const hasSelection = selectedId !== null && chain.size > 0;
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const [zoom, setZoom] = useState(1);
+    const pendingScroll = useRef<{ left: number; top: number } | null>(null);
+
+    useLayoutEffect(() => {
+        if (viewportRef.current && pendingScroll.current) {
+            viewportRef.current.scrollTo(pendingScroll.current);
+            pendingScroll.current = null;
+        }
+    }, [zoom]);
+
+    function changeZoom(next: number, fit = false) {
+        const viewport = viewportRef.current;
+        if (!viewport) return;
+        const position = fit ? { left: 0, top: 0 } : {
+            left: (viewport.scrollLeft + viewport.clientWidth / 2) * next / zoom - viewport.clientWidth / 2,
+            top: (viewport.scrollTop + viewport.clientHeight / 2) * next / zoom - viewport.clientHeight / 2,
+        };
+        if (next === zoom) {
+            viewport.scrollTo(position);
+        } else {
+            pendingScroll.current = position;
+            setZoom(next);
+        }
+    }
+
+    function fitToScreen() {
+        const viewport = viewportRef.current;
+        if (!viewport) return;
+        // Leave a little spare room so rounding cannot introduce a scrollbar.
+        const availableWidth = Math.max(1, viewport.clientWidth - 2);
+        const availableHeight = Math.max(1, viewport.clientHeight - 2);
+        changeZoom(Math.min(1, availableWidth / width, availableHeight / height), true);
+    }
     const [isPanning, setIsPanning] = useState(false);
     const drag = useRef<{
         pointerId: number;
@@ -29,6 +63,7 @@ export function PrereqGraph({ courses, byId, selectedId, chain, done, onSelect }
     const suppressClick = useRef(false);
 
     function startPan(event: PointerEvent<HTMLDivElement>) {
+        suppressClick.current = false;
         // Touch keeps the browser's native scrolling and pinch gestures.
         if (event.pointerType === 'touch' || event.button !== 0 || !event.isPrimary) return;
         const viewport = event.currentTarget;
@@ -71,7 +106,20 @@ export function PrereqGraph({ courses, byId, selectedId, chain, done, onSelect }
     }
 
     return (
+        <div className="pv-graph-panel">
+            <div className="pv-graph-toolbar" role="group" aria-label="Graph zoom controls">
+                <button type="button" className="pv-btn alt" aria-label="Zoom out" title="Zoom out"
+                    disabled={zoom <= 0.1} onClick={() => changeZoom(Math.max(0.1, zoom / 1.25))}>−</button>
+                <output className="pv-graph-zoom" aria-live="polite" aria-label="Zoom level">
+                    {Math.round(zoom * 1000) / 10}%
+                </output>
+                <button type="button" className="pv-btn alt" aria-label="Zoom in" title="Zoom in"
+                    disabled={zoom >= 3} onClick={() => changeZoom(Math.min(3, Math.max(0.1, zoom * 1.25)))}>+</button>
+                <button type="button" className="pv-btn alt" onClick={fitToScreen}>Fit to screen</button>
+                <button type="button" className="pv-btn alt" onClick={() => changeZoom(1)}>Reset to 100%</button>
+            </div>
         <div
+            ref={viewportRef}
             className={`pv-graph${isPanning ? ' is-panning' : ''}`}
             tabIndex={0}
             role="region"
@@ -94,7 +142,8 @@ export function PrereqGraph({ courses, byId, selectedId, chain, done, onSelect }
             }}
             onDragStart={(event) => event.preventDefault()}
         >
-            <svg width={width} height={height} role="group" aria-label="Course prerequisite graph">
+            <svg width={width * zoom} height={height * zoom} viewBox={`0 0 ${width} ${height}`}
+                role="group" aria-label="Course prerequisite graph">
                 {courses.flatMap((course) =>
                     course.prereqs.map((prereqId) => {
                         const from = byId.get(prereqId);
@@ -122,6 +171,7 @@ export function PrereqGraph({ courses, byId, selectedId, chain, done, onSelect }
                     />
                 ))}
             </svg>
+        </div>
         </div>
     );
 }
