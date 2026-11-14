@@ -2,17 +2,19 @@ import { COLUMN_GAP, GRAPH_PADDING, NODE_HEIGHT, ROW_PITCH } from './constants/c
 import type { Course, Status } from './types/types.ts';
 
 /** Turn "Name: prereq, prereq" lines into positioned courses. */
-export function parseCourses(text: string): Course[] {
+type Metadata = Pick<Course, 'name' | 'description' | 'category' | 'difficulty' | 'recommended'>;
+export function parseCourses(text: string, metadata: ReadonlyMap<string, Metadata> = new Map()): Course[] {
     const prereqMap = readLines(text);
     const depths = computeDepths(prereqMap);
 
     const courses: Course[] = [...prereqMap].map(([id, prereqs]) => ({
+        ...metadata.get(id),
         id,
         prereqs,
         depth: depths.get(id) ?? 0,
         x: 0,
         y: 0,
-        w: Math.max(116, id.length * 7.4 + 28),
+        w: Math.max(116, (metadata.get(id)?.name ?? id).length * 7.4 + 28),
     }));
 
     layoutColumns(courses);

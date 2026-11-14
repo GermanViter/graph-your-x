@@ -29,7 +29,7 @@ export function ProgressSummary({ planner }: { planner: Planner }) {
                 {readyCourses.length > 0 ? (
                     <div className="progress-ready">
                         {readyCourses.map((c) => (
-                            <button key={c.id} className="progress-chip" onClick={() => select(c.id)}>
+                            <button key={c.name ?? c.id} className="progress-chip" onClick={() => select(c.id)}>
                                 {c.id}
                             </button>
                         ))}
