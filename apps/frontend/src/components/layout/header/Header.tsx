@@ -36,11 +36,11 @@ export default function Header() {
     return (
         <header className={scrolled ? "header scrolled" : "header"}>
 
-            <Link to="/" className="header-brand" aria-label="Prereq home">
+            <Link to="/" className="header-brand" aria-label="Graph Your X home">
                 <span className="header-logo">
                     <LogoMark />
                 </span>
-                <span className="header-brand-title">Prereq</span>
+                <span className="header-brand-title">Graph Your X</span>
             </Link>
 
             <nav className="header-nav" aria-label="Main">
