@@ -1,6 +1,6 @@
 # Frontend connection to the Python backend
 
-Only frontend files are changed. The application reads the existing FastAPI endpoints:
+The frontend reads the FastAPI endpoints:
 
 - `GET /api/topics`
 - `GET /api/roadmap/{topic}`
@@ -18,21 +18,17 @@ npm install
 npm install --prefix apps/frontend
 ```
 
-If the database has not been seeded, load the provided starter content:
-
-```powershell
-.\.venv\Scripts\python.exe apps/backend/seed.py
-```
-
-The seed script inserts or updates starter content. Do not run it to overwrite a customized catalog unintentionally. The local database is ignored by Git.
-
-Then start both servers from the repository root:
+Start both servers from the repository root:
 
 ```powershell
 npm run dev
 ```
 
-This now starts FastAPI on port 8000 and Vite together. Ctrl+C stops both. For separate terminals, use `npm run backend` and `npm run frontend` from the root. Running `npm run dev` inside apps/frontend still starts only Vite.
+Backend startup automatically creates and populates SQLite with the starter and demo catalog: 12 topics, 131 concepts, and 180 prerequisite links on a fresh database. No manual seed step is needed. Restarts add missing seed concepts without duplicating or overwriting existing entries and their prerequisite lists. Missing seed concepts are restored at startup, including any deleted from SQLite. The database is ignored by Git, so each teammate gets their own populated copy when they start the backend. See [the demo catalog guide](../backend/DEMO_DATA.md).
+
+Refresh the browser after restarting the backend, then choose a topic in Manage path → Catalog. New catalog data does not automatically change your saved graph.
+
+This starts FastAPI on port 8000 and Vite together. Ctrl+C stops both. For separate terminals, use `npm run backend` and `npm run frontend` from the root. Running `npm run dev` inside apps/frontend still starts only Vite.
 
 Vite forwards /api to http://127.0.0.1:8000. Open the frontend URL printed in the terminal, go to Graph, then Manage path and Catalog.
 
@@ -74,4 +70,4 @@ $env:LIVE_API_URL='http://localhost:5173/api'
 npm test
 ```
 
-The live test expects the bundled three topics and 26 concepts. Regular tests use fixtures and do not require the backend.
+The live test expects the bundled three starter topics and at least 26 concepts; additional demo or custom topics are allowed. Regular tests use fixtures and do not require the backend.

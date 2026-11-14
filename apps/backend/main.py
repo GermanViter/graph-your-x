@@ -5,8 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import db
 from models import Roadmap, Topic
+from seed_demo import seed_demo
 
-db.init_db()
+# Fill missing starter and demo entries before the API accepts requests.
+seed_demo()
 
 app = FastAPI(title="graph-your-x API")
 
