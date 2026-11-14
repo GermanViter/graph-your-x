@@ -1,9 +1,15 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import templateCourses from '../../../data.json';
-import { fetchCourses, fetchCoursesFromBackend, parseCatalog } from '../api.ts';
+import {
+    fetchCourses,
+    fetchCoursesFromBackend,
+    parseCatalog,
+} from '../api.ts';
 
 function jsonResponse(body: unknown, status = 200): Response {
-    return new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify(body), {
+        status,
+        headers: { 'Content-Type': 'application/json' },
+    });
 }
 
 afterEach(() => {
@@ -22,12 +28,13 @@ describe('parseCatalog', () => {
         ]);
     });
 
-    it('accepts the bundled template data', () => {
-        expect(parseCatalog(templateCourses).length).toBe(templateCourses.length);
+    it('accepts an empty catalog', () => {
+        expect(parseCatalog([])).toEqual([]);
     });
 
     it('rejects a non-array payload', () => {
-        expect(() => parseCatalog({ courses: [] })).toThrow('Expected a course array');
+        expect(() => parseCatalog({ courses: [] }))
+            .toThrow('Expected a course array');
     });
 
     it.each([
@@ -43,7 +50,8 @@ describe('parseCatalog', () => {
         ['invalid prereq id', { id: 'A', prereqs: ['B:C'] }],
         ['non-string name', { id: 'A', name: 42, prereqs: [] }],
     ])('rejects %s', (_label, item) => {
-        expect(() => parseCatalog([item])).toThrow('Invalid course data.');
+        expect(() => parseCatalog([item]))
+            .toThrow('Invalid course data.');
     });
 
     it('rejects duplicate ids, including after trimming', () => {
@@ -56,51 +64,87 @@ describe('parseCatalog', () => {
 
 describe('fetchCoursesFromBackend', () => {
     it('requests JSON and parses the response', async () => {
-        const fetchMock = vi.fn().mockResolvedValue(jsonResponse([{ id: 'A', prereqs: [] }]));
+        const fetchMock = vi.fn().mockResolvedValue(
+            jsonResponse([{ id: 'A', prereqs: [] }]),
+        );
         vi.stubGlobal('fetch', fetchMock);
         const controller = new AbortController();
 
-        const courses = await fetchCoursesFromBackend('http://api.test/courses', controller.signal);
+        const courses = await fetchCoursesFromBackend(
+            'http://api.test/courses',
+            controller.signal,
+        );
 
-        expect(courses).toEqual([{ id: 'A', name: undefined, prereqs: [] }]);
-        expect(fetchMock).toHaveBeenCalledWith('http://api.test/courses', {
-            signal: controller.signal,
-            headers: { Accept: 'application/json' },
-        });
+        expect(courses).toEqual([
+            { id: 'A', name: undefined, prereqs: [] },
+        ]);
+        expect(fetchMock).toHaveBeenCalledWith(
+            'http://api.test/courses',
+            {
+                signal: controller.signal,
+                headers: { Accept: 'application/json' },
+            },
+        );
     });
 
     it('throws with the status code on a non-OK response', async () => {
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ detail: 'x' }, 500)));
-        await expect(fetchCoursesFromBackend('http://api.test/courses')).rejects.toThrow('Course request failed (500).');
+        vi.stubGlobal(
+            'fetch',
+            vi.fn().mockResolvedValue(jsonResponse({ detail: 'x' }, 500)),
+        );
+
+        await expect(fetchCoursesFromBackend('http://api.test/courses'))
+            .rejects.toThrow('Course request failed (500).');
     });
 
     it('throws when the server returns invalid data', async () => {
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse([{ id: '' }])));
-        await expect(fetchCoursesFromBackend('http://api.test/courses')).rejects.toThrow('Invalid course data.');
+        vi.stubGlobal(
+            'fetch',
+            vi.fn().mockResolvedValue(jsonResponse([{ id: '' }])),
+        );
+
+        await expect(fetchCoursesFromBackend('http://api.test/courses'))
+            .rejects.toThrow('Invalid course data.');
     });
 
     it('propagates network errors', async () => {
-        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')));
-        await expect(fetchCoursesFromBackend('http://api.test/courses')).rejects.toThrow('Failed to fetch');
+        vi.stubGlobal(
+            'fetch',
+            vi.fn().mockRejectedValue(new TypeError('Failed to fetch')),
+        );
+
+        await expect(fetchCoursesFromBackend('http://api.test/courses'))
+            .rejects.toThrow('Failed to fetch');
     });
 });
 
 describe('fetchCourses', () => {
-    it('falls back to the local template when no endpoint is configured', async () => {
+    it('requests backend topics when no legacy endpoint is configured', async () => {
         vi.stubEnv('VITE_COURSES_API_URL', '');
-        const fetchMock = vi.fn();
+        vi.stubEnv('VITE_API_BASE_URL', '');
+
+        const fetchMock = vi.fn().mockResolvedValue(jsonResponse([]));
         vi.stubGlobal('fetch', fetchMock);
 
-        expect(await fetchCourses()).toEqual(parseCatalog(templateCourses));
-        expect(fetchMock).not.toHaveBeenCalled();
+        expect(await fetchCourses()).toEqual([]);
+        expect(fetchMock).toHaveBeenCalledOnce();
+        expect(fetchMock).toHaveBeenCalledWith('/api/topics', {
+            signal: expect.any(AbortSignal),
+            headers: { Accept: 'application/json' },
+        });
     });
 
     it('uses the backend when an endpoint is configured', async () => {
         vi.stubEnv('VITE_COURSES_API_URL', 'http://api.test/courses');
-        const fetchMock = vi.fn().mockResolvedValue(jsonResponse([{ id: 'B', prereqs: [] }]));
+
+        const fetchMock = vi.fn().mockResolvedValue(
+            jsonResponse([{ id: 'B', prereqs: [] }]),
+        );
         vi.stubGlobal('fetch', fetchMock);
 
-        expect(await fetchCourses()).toEqual([{ id: 'B', name: undefined, prereqs: [] }]);
+        expect(await fetchCourses()).toEqual([
+            { id: 'B', name: undefined, prereqs: [] },
+        ]);
         expect(fetchMock).toHaveBeenCalledOnce();
     });
 });

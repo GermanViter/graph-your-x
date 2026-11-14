@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix apps/frontend\"",
-    "frontend": "npm run dev --prefix apps/frontend"
+    "dev": "concurrently --kill-others --names API,WEB \"npm run backend\" \"npm run frontend\"",
+    "frontend": "npm run dev --prefix apps/frontend",
+    "backend": "node scripts/start-backend.mjs"
   },
   "keywords": [],
   "author": "",
