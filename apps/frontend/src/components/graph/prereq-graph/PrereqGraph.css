@@ -5,6 +5,19 @@
     background-size: 22px 22px;
     background-position: -1px -1px;
     min-height: 420px;
+    min-width: 0;
+    cursor: grab;
+    user-select: none;
+}
+
+.pv-graph.is-panning,
+.pv-graph.is-panning .pv-node {
+    cursor: grabbing;
+}
+
+.pv-graph:focus-visible {
+    outline: 3px solid var(--pick);
+    outline-offset: -3px;
 }
 
 .pv-graph svg {

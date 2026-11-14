@@ -18,3 +18,14 @@ export function addCatalogCourse(source: string, id: string, catalog: CatalogCou
     if (!lines.length) return source;
     return source + (source && !source.endsWith('\n') ? '\n' : '') + lines.join('\n');
 }
+
+/** Remove a node and all incoming references so the parser cannot recreate it. */
+export function removeCourse(source: string, id: string): string {
+    return source.split('\n').flatMap((line) => {
+        const [name, rest = ''] = line.split(':');
+        if (name.trim() === id) return [];
+        const prereqs = rest.split(',').map((part) => part.trim()).filter(Boolean);
+        if (!prereqs.includes(id)) return [line];
+        return [`${name}: ${prereqs.filter((prereq) => prereq !== id).join(', ')}`.trimEnd()];
+    }).join('\n');
+}

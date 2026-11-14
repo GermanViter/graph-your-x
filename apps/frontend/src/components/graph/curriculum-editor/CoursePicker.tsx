@@ -1,14 +1,20 @@
 import { useEffect, useId, useState } from 'react';
 import { fetchCourses, type CatalogCourse } from '../../../services/api.ts';
-import { addCatalogCourse } from '../../../services/catalog.ts';
+import { addCatalogCourse, removeCourse } from '../../../services/catalog.ts';
+import { parseCourses } from '../../../parseCourses.ts';
 
-export function CoursePicker({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+type Props = { value: string; onChange: (value: string) => void };
+
+export function CoursePicker({ value, onChange }: Props) {
     const inputId = useId();
     const [courses, setCourses] = useState<CatalogCourse[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [attempt, setAttempt] = useState(0);
     const [notice, setNotice] = useState('');
+    const [query, setQuery] = useState('');
+    const [selectedOnly, setSelectedOnly] = useState(false);
+    const [undo, setUndo] = useState<{ before: string; after: string } | null>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -26,38 +32,81 @@ export function CoursePicker({ value, onChange }: { value: string; onChange: (va
         return () => controller.abort();
     }, [attempt]);
 
-    const defined = new Set(value.split('\n').map((line) => line.split(':')[0].trim()));
+    // Derive selection from the same text as the graph, including implicit prerequisites.
+    const selected = new Set(parseCourses(value).map((course) => course.id));
+    const catalogIds = new Set(courses.map((course) => course.id));
+    const options = [
+        ...courses,
+        ...[...selected].filter((id) => !catalogIds.has(id)).map((id) => ({ id, name: 'Custom course', prereqs: [] })),
+    ];
+    const search = query.trim().toLowerCase();
+    const visible = options.filter((course) =>
+        (!selectedOnly || selected.has(course.id)) &&
+        `${course.id} ${course.name ?? ''}`.toLowerCase().includes(search));
+
+    function change(next: string, message: string) {
+        setUndo({ before: value, after: next });
+        onChange(next);
+        setNotice(message);
+    }
+
     return (
         <div className="pv-course-picker">
-            <label htmlFor={inputId}>Add a course from the catalog</label>
-            <select
-                id={inputId}
-                value=""
-                disabled={loading || error || courses.length === 0}
-                aria-describedby={`${inputId}-help`}
-                onChange={(event) => {
-                    const id = event.target.value;
-                    if (!id) return;
-                    onChange(addCatalogCourse(value, id, courses));
-                    setNotice(`${id} added. You can edit or remove it in the list below.`);
-                }}
-            >
-                <option value="">{loading ? 'Loading courses…' : error ? 'Courses unavailable' : courses.length === 0 ? 'No courses available' : 'Choose a course…'}</option>
-                {courses.map((course) => (
-                    <option key={course.id} value={course.id} disabled={defined.has(course.id)}>
-                        {course.id}{course.name ? ` — ${course.name}` : ''}{defined.has(course.id) ? ' (already added)' : ''}
-                    </option>
-                ))}
-            </select>
-            <p id={`${inputId}-help`}>Adds the course and its prerequisites. Edit the list below to add or remove courses and connections.</p>
-            {error && <div role="alert">
-                <p>Could not load courses. You can still edit the list manually.</p>
-                <button className="pv-btn alt" onClick={() => {
-                    setError(false);
-                    setLoading(true);
-                    setAttempt((current) => current + 1);
-                }}>Retry loading courses</button>
-            </div>}
+            <details className="pv-course-menu" open>
+                <summary>Choose courses <span>{selected.size} selected</span></summary>
+                <div className="pv-course-controls">
+                    <label htmlFor={inputId}>Search courses</label>
+                    <input id={inputId} type="search" value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder="Search by code or name" aria-controls={`${inputId}-list`} />
+                    <label className="pv-course-filter">
+                        <input type="checkbox" checked={selectedOnly}
+                            onChange={(event) => setSelectedOnly(event.target.checked)} />
+                        Selected only
+                    </label>
+                    <p id={`${inputId}-help`}>Check to add a course and its prerequisites. Uncheck to remove it and its connections; other courses stay selected.</p>
+                </div>
+                {loading && <p className="pv-course-message" role="status">Loading catalog…</p>}
+                {error && <div className="pv-course-message" role="alert">
+                    <p>Could not load the catalog. You can still remove selected courses or edit the list below.</p>
+                    <button className="pv-btn alt" onClick={() => {
+                        setError(false);
+                        setLoading(true);
+                        setAttempt((current) => current + 1);
+                    }}>Retry loading courses</button>
+                </div>}
+                <div id={`${inputId}-list`} className="pv-course-list" role="group"
+                    aria-label="Course selection" aria-describedby={`${inputId}-help`}>
+                    {visible.map((course) => (
+                        <label key={course.id} className="pv-course-option">
+                            <input type="checkbox" checked={selected.has(course.id)}
+                                onChange={(event) => {
+                                    if (event.target.checked) {
+                                        change(addCatalogCourse(value, course.id, courses), `${course.id} and missing prerequisites added.`);
+                                    } else {
+                                        change(removeCourse(value, course.id), `${course.id} and its connections removed.`);
+                                    }
+                                }} />
+                            <span><strong>{course.id}</strong>{course.name && <small>{course.name}</small>}</span>
+                        </label>
+                    ))}
+                    {!visible.length && !loading && <p className="pv-course-message">
+                        {search ? 'No courses match your search.' : selectedOnly ? 'No courses selected.' : 'No courses available.'}
+                    </p>}
+                </div>
+            </details>
+            <div className="pv-course-actions">
+                <button className="pv-btn alt" disabled={selected.size === 0}
+                    onClick={() => change('', 'All courses removed from the graph.')}>Clear graph</button>
+                <button className="pv-btn alt" disabled={!undo || undo.after !== value}
+                    onClick={() => {
+                        if (undo && undo.after === value) {
+                            onChange(undo.before);
+                            setUndo(null);
+                            setNotice('Last selection change undone.');
+                        }
+                    }}>Undo</button>
+            </div>
             <p role="status">{notice}</p>
         </div>
     );
