@@ -22,7 +22,6 @@ function mockCatalog() {
 
 describe('FastAPI roadmap integration', () => {
     it('uses topics and roadmaps by default, not the sample catalog', async () => {
-        vi.stubEnv('VITE_USE_SAMPLE_DATA', '');
         vi.stubEnv('VITE_COURSES_API_URL', '');
         vi.stubEnv('VITE_API_BASE_URL', '');
         const mock = mockCatalog();

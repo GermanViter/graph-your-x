@@ -9,28 +9,36 @@ The frontend loads the roadmaps once per app mount and shares their catalog betw
 
 ## Run locally
 
-In a terminal, start the existing backend using its current code:
+From the repository root, perform the one-time Windows setup:
 
 ```powershell
-cd apps/backend
-python -m pip install -r requirements.txt
-python seed.py
-python -m uvicorn main:app --reload --port 8000
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r apps/backend/requirements.txt
+npm install
+npm install --prefix apps/frontend
 ```
 
-Run `seed.py` only when you need the bundled starter topics; it inserts or updates that starter content. The ZIP does not include a populated database. The backend creates its tables automatically, but an unseeded database returns an empty topics list.
-
-In a second terminal:
+If the database has not been seeded, load the provided starter content:
 
 ```powershell
-cd apps/frontend
-npm install
+.\.venv\Scripts\python.exe apps/backend/seed.py
+```
+
+The seed script inserts or updates starter content. Do not run it to overwrite a customized catalog unintentionally. The local database is ignored by Git.
+
+Then start both servers from the repository root:
+
+```powershell
 npm run dev
 ```
 
-Vite proxies `/api` to `http://127.0.0.1:8000`, so the frontend works without changing backend CORS. Open the Vite URL, go to Graph, click **Manage path**, then choose a topic in **Catalog**.
+This now starts FastAPI on port 8000 and Vite together. Ctrl+C stops both. For separate terminals, use `npm run backend` and `npm run frontend` from the root. Running `npm run dev` inside apps/frontend still starts only Vite.
 
-Saved browser paths are preserved. A new graph starts empty so sample courses are not mixed with real database content. The landing page keeps its existing illustrative sample. You can clear an old saved sample using **Clear graph** before choosing a database topic.
+Vite forwards /api to http://127.0.0.1:8000. Open the frontend URL printed in the terminal, go to Graph, then Manage path and Catalog.
+
+If you see Backend request failed (502), check that the API process started successfully. Open http://127.0.0.1:8000/api/health to check the API. A missing Python dependency or a stopped backend cannot be fixed by refreshing the frontend alone. After correcting it, click Retry loading courses.
+
+Saved paths remain in the browser. New graph pages start empty; the landing page keeps its illustrative sample.
 
 ## Configuration
 
@@ -38,7 +46,7 @@ Defaults work without an `.env.local` file. To change the backend port, copy `.e
 
 Remove an old `VITE_COURSES_API_URL` setting if you previously configured `/api/courses`: that endpoint is not provided by this backend. The variable is retained only for compatibility with the old course-array API.
 
-`VITE_USE_SAMPLE_DATA=true` explicitly enables the local `data.json` demo. It is not a fallback when the backend is unavailable. With the default live mode, network/API failures show an error and Retry; manual editing still works.
+The catalog always loads from the backend. Network/API failures show an error and Retry; manual editing still works. Remove the obsolete sample-data environment setting from any local environment files. The built-in landing-page illustration and Restore sample curriculum action are separate from the backend catalog.
 
 ## Deployment
 

@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import templateCourses from '../../../data.json';
 import { fetchCourses, fetchCoursesFromBackend, parseCatalog } from '../api.ts';
 
 function jsonResponse(body: unknown, status = 200): Response {
@@ -22,8 +21,8 @@ describe('parseCatalog', () => {
         ]);
     });
 
-    it('accepts the bundled template data', () => {
-        expect(parseCatalog(templateCourses).length).toBe(templateCourses.length);
+    it('accepts an empty catalog', () => {
+        expect(parseCatalog([])).toEqual([]);
     });
 
     it('rejects a non-array payload', () => {
@@ -86,14 +85,18 @@ describe('fetchCoursesFromBackend', () => {
 });
 
 describe('fetchCourses', () => {
-    it('uses the local template only when explicitly enabled', async () => {
+    it('requests backend topics when no legacy endpoint is configured', async () => {
         vi.stubEnv('VITE_COURSES_API_URL', '');
-        vi.stubEnv('VITE_USE_SAMPLE_DATA', 'true');
-        const fetchMock = vi.fn();
+        vi.stubEnv('VITE_API_BASE_URL', '');
+        const fetchMock = vi.fn().mockResolvedValue(jsonResponse([]));
         vi.stubGlobal('fetch', fetchMock);
 
-        expect(await fetchCourses()).toEqual(parseCatalog(templateCourses));
-        expect(fetchMock).not.toHaveBeenCalled();
+        expect(await fetchCourses()).toEqual([]);
+        expect(fetchMock).toHaveBeenCalledOnce();
+        expect(fetchMock).toHaveBeenCalledWith('/api/topics', {
+            signal: expect.any(AbortSignal),
+            headers: { Accept: 'application/json' },
+        });
     });
 
     it('uses the backend when an endpoint is configured', async () => {
