@@ -22,6 +22,7 @@ export function PrereqWorkspace({ planner }: { planner: Planner }) {
                 />
                 <CourseDetails
                     course={selected}
+                    catalog={planner.metadata}
                     status={selected ? getStatus(selected, done) : 'locked'}
                     missing={missing}
                     unlocks={unlocks}

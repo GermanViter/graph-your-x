@@ -21,7 +21,7 @@ export function GraphNode({ course, status, isSelected, dimmed, onSelect }: Prop
             tabIndex={0}
             role="button"
             aria-pressed={isSelected}
-            aria-label={`${course.id}, ${style.label}`}
+            aria-label={`${course.name ?? course.id}, ${style.label}`}
             opacity={dimmed ? 0.45 : 1}
             onClick={select}
             onKeyDown={(e) => {
@@ -42,7 +42,7 @@ export function GraphNode({ course, status, isSelected, dimmed, onSelect }: Prop
                 strokeWidth={isSelected ? 3.5 : 1.5}
             />
             <text x={course.x + course.w / 2} y={course.y + NODE_HEIGHT / 2 + 4.5} textAnchor="middle" fill={style.text}>
-                {course.id}
+                {course.name ?? course.id}
             </text>
         </g>
     );

@@ -37,6 +37,7 @@ export default function Graph() {
                 <p className="graph-save-note">Progress and courses are saved in this browser.</p>
             </div>
             <ProgressSummary planner={planner} />
+            {planner.courses.length === 0 && <p>Open Manage path to choose a topic from the database or create your own learning path.</p>}
             <PrereqWorkspace planner={planner} />
 
             <dialog ref={dialogRef} className="graph-editor-drawer" aria-labelledby={titleId}

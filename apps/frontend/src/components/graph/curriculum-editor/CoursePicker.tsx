@@ -1,5 +1,6 @@
-import { useEffect, useId, useState } from 'react';
-import { fetchCourses, type CatalogCourse } from '../../../services/api.ts';
+import { useId, useState } from 'react';
+import type { CatalogCourse } from '../../../services/api.ts';
+import { useCourseCatalog } from '../../../hooks/useCourseCatalog.ts';
 import { addCatalogCourse, getDependentCourseIds, removeCourse } from '../../../services/catalog.ts';
 import { parseCourses } from '../../../parseCourses.ts';
 
@@ -7,37 +8,18 @@ type Props = { value: string; onChange: (value: string) => void };
 
 export function CoursePicker({ value, onChange }: Props) {
     const inputId = useId();
-    const [courses, setCourses] = useState<CatalogCourse[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [attempt, setAttempt] = useState(0);
+    const { courses, loading, error, reload } = useCourseCatalog();
     const [notice, setNotice] = useState('');
     const [query, setQuery] = useState('');
     const [selectedOnly, setSelectedOnly] = useState(false);
     const [undo, setUndo] = useState<{ before: string; after: string } | null>(null);
 
-    useEffect(() => {
-        const controller = new AbortController();
-        fetchCourses(controller.signal).then((data) => {
-            if (!controller.signal.aborted) {
-                setCourses(data);
-                setLoading(false);
-            }
-        }).catch(() => {
-            if (!controller.signal.aborted) {
-                setError(true);
-                setLoading(false);
-            }
-        });
-        return () => controller.abort();
-    }, [attempt]);
-
     // Derive selection from the same text as the graph, including implicit prerequisites.
     const selected = new Set(parseCourses(value).map((course) => course.id));
     const catalogIds = new Set(courses.map((course) => course.id));
-    const options = [
-        ...courses,
-        ...[...selected].filter((id) => !catalogIds.has(id)).map((id) => ({ id, name: 'Custom course', prereqs: [] })),
+    const options: CatalogCourse[] = [
+        ...[...courses].sort((a, b) => Number(Boolean(b.isTopic)) - Number(Boolean(a.isTopic)) || (a.name ?? a.id).localeCompare(b.name ?? b.id)),
+        ...[...selected].filter((id) => !catalogIds.has(id)).map((id) => ({ id, name: id, prereqs: [] })),
     ];
     const search = query.trim().toLowerCase();
     const visible = options.filter((course) =>
@@ -53,9 +35,9 @@ export function CoursePicker({ value, onChange }: Props) {
     return (
         <div className="pv-course-picker">
             <details className="pv-course-menu" open>
-                <summary>Choose courses <span>{selected.size} selected</span></summary>
+                <summary>Choose a topic or step <span>{selected.size} selected</span></summary>
                 <div className="pv-course-controls">
-                    <label htmlFor={inputId}>Search courses</label>
+                    <label htmlFor={inputId}>Search topics and steps</label>
                     <input id={inputId} type="search" value={query}
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder="Search by code or name" aria-controls={`${inputId}-list`} />
@@ -64,16 +46,12 @@ export function CoursePicker({ value, onChange }: Props) {
                             onChange={(event) => setSelectedOnly(event.target.checked)} />
                         Selected only
                     </label>
-                    <p id={`${inputId}-help`}>Check to add a course and its prerequisites. Unchecking also removes courses that depend on it, keeping prerequisite requirements intact. Use Undo to restore the selection.</p>
+                    <p id={`${inputId}-help`}>Check to add a topic or step and its required prerequisites. Recommendations are optional and can be selected separately. Unchecking also removes courses that depend on it, keeping prerequisite requirements intact. Use Undo to restore the selection.</p>
                 </div>
                 {loading && <p className="pv-course-message" role="status">Loading catalog…</p>}
                 {error && <div className="pv-course-message" role="alert">
-                    <p>Could not load the catalog. You can still remove selected courses or edit the list below.</p>
-                    <button className="pv-btn alt" onClick={() => {
-                        setError(false);
-                        setLoading(true);
-                        setAttempt((current) => current + 1);
-                    }}>Retry loading courses</button>
+                    <p>Could not load the catalog: {error} You can still edit your saved path manually.</p>
+                    <button className="pv-btn alt" onClick={reload}>Retry loading courses</button>
                 </div>}
                 <div id={`${inputId}-list`} className="pv-course-list" role="group"
                     aria-label="Course selection" aria-describedby={`${inputId}-help`}>
@@ -90,11 +68,16 @@ export function CoursePicker({ value, onChange }: Props) {
                                             : `${course.id} removed. Use Undo to restore it.`);
                                     }
                                 }} />
-                            <span><strong>{course.id}</strong>{course.name && <small>{course.name}</small>}</span>
+                            <span><strong>{course.name ?? course.id}</strong>
+                                <small>{course.id}{course.isTopic ? ' · Topic' : ''}</small>
+                                {course.description && <small>{course.description}</small>}
+                                {course.difficulty !== undefined && <small>{course.category} · Difficulty {course.difficulty}/5</small>}
+                                {Boolean(course.recommended?.length) && <small>Recommended (optional): {course.recommended!.map((id) => courses.find((item) => item.id === id)?.name ?? id).join(', ')}</small>}
+                            </span>
                         </label>
                     ))}
-                    {!visible.length && !loading && <p className="pv-course-message">
-                        {search ? 'No courses match your search.' : selectedOnly ? 'No courses selected.' : 'No courses available.'}
+                    {!visible.length && !loading && !error && <p className="pv-course-message">
+                        {search ? 'No courses match your search.' : selectedOnly ? 'No courses selected.' : 'No topics available. Ask your teammate to seed the database.'}
                     </p>}
                 </div>
             </details>
