@@ -4,7 +4,7 @@ import ErrorBoundary from "../../components/error-boundary/ErrorBoundary.tsx";
 import MainLayout from "../../components/layout/MainLayout.tsx";
 
 const Landing = lazy(() => import("../../pages/landing/Landing.tsx"));
-const Graph = lazy(() => import("../../pages/graph/Graph.tsx"));
+const Graph = lazy(() => import("../../pages/prereq/Prereq.tsx"));
 
 
 export const router = createBrowserRouter([

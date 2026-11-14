@@ -1,5 +1,6 @@
-import { getStatus, graphSize } from "../../../../parseCourses";
-import type { Course } from "../../../../types/types";
+import "./PrereqGraph.css";
+import { getStatus, graphSize } from "../../../parseCourses";
+import type { Course } from "../../../types/types";
 import { GraphEdge } from "../graph-edge/GraphEdge";
 import { GraphNode } from "../graph-node/GraphNode";
 

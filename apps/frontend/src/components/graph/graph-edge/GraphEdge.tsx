@@ -1,5 +1,6 @@
-import { NODE_HEIGHT, SELECTED_COLOR } from "../../../../constants/constants";
-import type { Course } from "../../../../types/types";
+import "./GraphEdge.css";
+import { NODE_HEIGHT, SELECTED_COLOR } from "../../../constants/constants";
+import type { Course } from "../../../types/types";
 
 type Props = {
     from: Course;

@@ -1,5 +1,6 @@
-import { NODE_HEIGHT, SELECTED_COLOR, STATUS_STYLES } from "../../../../constants/constants";
-import type { Course, Status } from "../../../../types/types";
+import "./GraphNode.css";
+import { NODE_HEIGHT, SELECTED_COLOR, STATUS_STYLES } from "../../../constants/constants";
+import type { Course, Status } from "../../../types/types";
 
 type Props = {
     course: Course;

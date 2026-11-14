@@ -1,5 +1,6 @@
-import { STATUS_STYLES } from "../../../../constants/constants";
-import type { Course, Status } from "../../../../types/types";
+import "./CourseDetails.css";
+import { STATUS_STYLES } from "../../../constants/constants";
+import type { Course, Status } from "../../../types/types";
 
 type Props = {
     course: Course | null;

@@ -1,0 +1,18 @@
+.pv-node {
+    cursor: pointer;
+    outline: none;
+}
+
+.pv-node rect {
+    transition: fill .15s, stroke .15s, opacity .15s;
+}
+
+.pv-node text {
+    font: 600 13px 'Bricolage Grotesque', sans-serif;
+    pointer-events: none;
+}
+
+.pv-node:focus-visible rect {
+    stroke: var(--pick);
+    stroke-width: 3;
+}

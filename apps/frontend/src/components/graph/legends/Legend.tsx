@@ -1,5 +1,6 @@
-import { SELECTED_COLOR, STATUS_STYLES } from "../../../../constants/constants";
-import type { Status } from "../../../../types/types";
+import "./Legend.css";
+import { SELECTED_COLOR, STATUS_STYLES } from "../../../constants/constants";
+import type { Status } from "../../../types/types";
 
 export function Legend() {
     return (
