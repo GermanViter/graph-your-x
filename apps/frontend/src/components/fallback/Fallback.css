@@ -4,21 +4,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--ff-bg-base);
+    background: var(--color-page);
 }
 
 .fallback-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--ff-space-4);
+    gap: var(--space-4);
 }
 
 .fallback-title {
-    font-family: var(--ff-font-serif);
+    font-family: var(--font-sans);
     font-size: 16px;
     font-weight: 500;
-    color: var(--ff-text-secondary);
+    color: var(--color-muted);
     margin: 0;
 }
 
@@ -31,7 +31,7 @@
 
 .circle-shape {
     fill: none;
-    stroke: var(--ff-interactive);
+    stroke: var(--color-accent);
     stroke-width: 2;
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;
