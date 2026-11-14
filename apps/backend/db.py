@@ -10,6 +10,8 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 
+from models import Roadmap, Topic
+
 # app.db sits next to this file, no matter which folder you run from.
 DB_PATH = Path(__file__).parent / "app.db"
 
@@ -47,7 +49,7 @@ CREATE TABLE IF NOT EXISTS prerequisites (
     concept_id  TEXT NOT NULL REFERENCES concepts(id),
     requires_id TEXT NOT NULL REFERENCES concepts(id),
     type        TEXT NOT NULL
-                CHECK (type IN ('required', 'recommended', 'corequisite')),
+                CHECK (type IN ('required', 'recommended')),
     PRIMARY KEY (concept_id, requires_id)         -- no duplicate edges
 );
 
@@ -66,7 +68,7 @@ def init_db() -> None:
 
 # Every concept reachable from the goal by following prerequisites downward.
 # UNION (not UNION ALL) drops ids already seen, so the walk always stops,
-# even if corequisite edges form a loop.
+# even if bad data ever forms a loop.
 CHAIN_CTE = """
 WITH RECURSIVE chain(id) AS (
     SELECT ?
@@ -117,9 +119,23 @@ def get_roadmap(goal_id: str) -> dict | None:
     }
 
 
+def list_topics() -> list[Topic]:
+    """Les sujets proposés dans le sélecteur de l'UI (table topics)."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            """
+            SELECT c.id, c.label
+            FROM topics t
+            JOIN concepts c ON c.id = t.id
+            ORDER BY c.label
+            """
+        ).fetchall()
+    return [Topic(**dict(r)) for r in rows]
+
+
 def list_concepts() -> list[Topic]:
     """Tous les ids et labels, passés au LLM pour qu'il réutilise les ids existants."""
-    with closing(get_conn()) as conn:
+    with get_conn() as conn:
         rows = conn.execute("SELECT id, label FROM concepts ORDER BY id").fetchall()
     return [Topic(**dict(r)) for r in rows]
 
@@ -130,7 +146,7 @@ def save_roadmap(roadmap: Roadmap) -> None:
     Les concepts existants sont gardés tels quels : les données du seed,
     vérifiées à la main, ont priorité sur ce que le LLM a écrit pour le même id.
     """
-    with closing(get_conn()) as conn, conn:
+    with get_conn() as conn:
         conn.executemany(
             """
             INSERT INTO concepts (id, label, description, category, difficulty)
@@ -146,9 +162,9 @@ def save_roadmap(roadmap: Roadmap) -> None:
             ON CONFLICT (concept_id, requires_id) DO NOTHING
             """,
             # API (from prerequisite, to dependent) -> DB (concept_id, requires_id)
-            [(e["to"], e["from"], e["type"]) for e in roadmap["edges"]],
+            [(e.to, e.from_, e.type) for e in roadmap.edges],
         )
         conn.execute(
             "INSERT INTO topics (id) VALUES (?) ON CONFLICT (id) DO NOTHING",
-            (roadmap["goal"],),
+            (roadmap.goal,),
         )
