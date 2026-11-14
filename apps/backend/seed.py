@@ -3,9 +3,10 @@
 Peut être relancé autant de fois qu'on veut : les lignes existantes sont mises à jour.
 """
 
-from contextlib import closing
-
 from db import get_conn, init_db
+
+# Les sujets "objectifs" proposés dans le sélecteur de l'UI.
+TOPICS = ["machine-learning", "web-development", "cybersecurity"]
 
 # (id, label, description, category, difficulty)
 CONCEPTS = [
@@ -80,7 +81,7 @@ PREREQUISITES = [
 
 def seed() -> None:
     init_db()
-    with closing(get_conn()) as conn, conn:
+    with get_conn() as conn:
         conn.executemany(
             """
             INSERT INTO concepts (id, label, description, category, difficulty)
@@ -100,6 +101,10 @@ def seed() -> None:
             ON CONFLICT(concept_id, requires_id) DO UPDATE SET type = excluded.type
             """,
             PREREQUISITES,
+        )
+        conn.executemany(
+            "INSERT INTO topics (id) VALUES (?) ON CONFLICT(id) DO NOTHING",
+            [(t,) for t in TOPICS],
         )
     print("Database seeded.")
 
