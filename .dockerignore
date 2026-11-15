@@ -1,0 +1,25 @@
+# Keep the build context small and never send secrets or local state to Docker.
+.git
+.gitignore
+.dockerignore
+Dockerfile
+compose.yaml
+*.md
+
+**/node_modules
+**/dist
+**/coverage
+**/.venv
+**/venv
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+
+**/.env
+**/.env.*
+**/*.db
+**/*.db-journal
+**/*.db-wal
+**/*.db-shm
+**/*.pem
+**/*.key

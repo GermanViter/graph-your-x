@@ -1,0 +1,10 @@
+# Run the whole app (frontend + backend) with:  docker compose up --build
+# Then open http://localhost:8000
+# Port 8000 already taken? Use another one:  APP_PORT=3000 docker compose up --build
+services:
+  app:
+    build: .
+    image: graph-your-x
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    restart: unless-stopped

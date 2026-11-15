@@ -1,4 +1,8 @@
+import pytest
+from fastapi.testclient import TestClient
+
 import db
+import main
 from tests.conftest import make_roadmap
 
 
@@ -48,3 +52,32 @@ def test_cors_allows_frontend_origin(client):
 def test_cors_rejects_other_origins(client):
     response = client.get("/api/health", headers={"Origin": "http://evil.example"})
     assert "access-control-allow-origin" not in response.headers
+
+
+# --- Docker mode: the same server also delivers the built frontend ---
+
+@pytest.fixture
+def spa_client(tmp_path):
+    from fastapi import FastAPI
+
+    (tmp_path / "index.html").write_text("<html>app</html>", encoding="utf-8")
+    (tmp_path / "favicon.svg").write_text("<svg/>", encoding="utf-8")
+    spa = FastAPI()
+    spa.mount("/", main.SPAStaticFiles(directory=tmp_path, html=True))
+    return TestClient(spa)
+
+
+def test_frontend_files_are_served(spa_client):
+    assert spa_client.get("/").text == "<html>app</html>"
+    assert spa_client.get("/favicon.svg").text == "<svg/>"
+
+
+def test_frontend_routes_fall_back_to_index(spa_client):
+    # /graph is a React Router page, not a file: the browser must get the app.
+    response = spa_client.get("/graph")
+    assert response.status_code == 200
+    assert response.text == "<html>app</html>"
+
+
+def test_unknown_api_route_stays_404(spa_client):
+    assert spa_client.get("/api/nope").status_code == 404
