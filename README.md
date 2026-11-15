@@ -96,16 +96,42 @@ graph-your-x/
 │           ├── hooks/          # usePrereqPlanner : tout l'état du planificateur
 │           ├── services/       # chargement du catalogue, édition du parcours (+ tests)
 │           └── global.css      # thème (couleurs, polices)
+├── Dockerfile                  # image unique : frontend compilé + API
+├── compose.yaml                # `docker compose up --build`
 ├── CLAUDE.md                   # conventions du projet
 └── package.json                # scripts pour lancer le front depuis la racine
 ```
 
 ## Lancer le projet
 
+### Avec Docker (le plus simple)
+
+Il faut seulement [Docker](https://docs.docker.com/get-started/get-docker/). Une seule commande,
+à la racine du projet, construit et lance toute l'application (frontend et backend) :
+
+```bash
+docker compose up --build
+```
+
+L'app est sur http://localhost:8000 (et la documentation de l'API sur http://localhost:8000/docs).
+`Ctrl+C` arrête l'application.
+
+- Le port 8000 est déjà pris ? `APP_PORT=3000 docker compose up --build`, puis ouvrez
+  http://localhost:3000.
+- Sans Docker Compose :
+  `docker build -t graph-your-x . && docker run --rm -p 8000:8000 graph-your-x`
+- La base SQLite est créée et remplie au démarrage du conteneur. La progression de l'utilisateur
+  reste dans le navigateur (`localStorage`).
+
+Dans l'image, le frontend est compilé en fichiers statiques et c'est FastAPI qui sert à la fois
+ces fichiers et l'API, sur un seul port (voir `Dockerfile`).
+
+### Sans Docker (pour développer)
+
 Il faut **Python 3.10+** et **Node.js 20+**. Le backend et le frontend roulent en même temps,
 dans deux terminaux séparés.
 
-### Backend (port 8000)
+#### Backend (port 8000)
 
 ```bash
 cd apps/backend
@@ -124,7 +150,7 @@ uvicorn main:app --reload
 L'API roule sur http://localhost:8000 et la documentation interactive est sur
 http://localhost:8000/docs.
 
-### Frontend (port 5173)
+#### Frontend (port 5173)
 
 ```bash
 cd apps/frontend
